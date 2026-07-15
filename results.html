@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>My Results — Grade 9 Natural Sciences</title>
+<link rel="icon" type="image/png" href="https://dbeducator.github.io/natural-sciences-grade9/favicon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #07070c; color: #fff; min-height: 100vh; }
+  body.light-mode { background: #f0f2f5; color: #222; }
+
+  .header { background: linear-gradient(135deg, #4caf50 0%, #4caf50cc 100%); color: white; padding: 18px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 50; }
+  .header-content { max-width: 700px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 1.1rem; }
+  .header p { font-size: 0.75rem; opacity: 0.9; }
+  .theme-toggle { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 18px; cursor: pointer; font-size: 0.8rem; font-family: inherit; }
+  body.light-mode .theme-toggle { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.2); color: #333; }
+
+  .container { max-width: 700px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .stat { background: #12121f; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; text-align: center; }
+  body.light-mode .stat { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .stat h3 { font-size: 1.5rem; color: #4caf50; }
+  .stat p { font-size: 0.68rem; color: #999; margin-top: 2px; }
+
+  .filter-row { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+  .filter-btn { padding: 7px 15px; background: #12121f; border: 1px solid rgba(76,175,80,0.4); border-radius: 18px; color: #aaa; font-size: 0.78rem; cursor: pointer; white-space: nowrap; font-family: inherit; }
+  body.light-mode .filter-btn { background: #fff; }
+  .filter-btn.active { background: #4caf50; color: #fff; border-color: #4caf50; font-weight: 700; }
+
+  .result-row { background: #12121f; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+  body.light-mode .result-row { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .result-pct { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+  .result-pct.pass { background: rgba(76,175,80,0.15); color: #4caf50; border: 2px solid #4caf50; }
+  .result-pct.fail { background: rgba(239,83,80,0.15); color: #ef5350; border: 2px solid #ef5350; }
+  .result-info { flex: 1; min-width: 0; }
+  .result-course { font-weight: 600; font-size: 0.9rem; }
+  .result-meta { font-size: 0.72rem; color: #888; margin-top: 2px; }
+  .result-badge { font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; white-space: nowrap; }
+  .result-badge.pass { background: rgba(76,175,80,0.15); color: #4caf50; }
+  .result-badge.fail { background: rgba(239,83,80,0.15); color: #ef5350; }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+  .empty-state .icon { font-size: 3rem; margin-bottom: 14px; }
+
+  .back-link { display: block; text-align: center; margin-top: 24px; color: #4caf50; text-decoration: none; font-size: 0.85rem; }
+  .clear-btn { display: block; width: 100%; margin-top: 20px; padding: 11px; background: rgba(239,83,80,0.1); border: 1px solid rgba(239,83,80,0.3); color: #ef5350; border-radius: 12px; font-size: 0.82rem; cursor: pointer; font-family: inherit; }
+</style>
+</head>
+<body id="body">
+<script>if(localStorage.getItem('cl_theme')==='light')document.getElementById('body').classList.add('light-mode');</script>
+
+<div class="header">
+  <div class="header-content">
+    <div>
+      <h1>&#128202; My Results</h1>
+      <p>Grade 9 Natural Sciences</p>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">&#9728;</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="stats-row">
+    <div class="stat"><h3 id="statAttempts">0</h3><p>Attempts</p></div>
+    <div class="stat"><h3 id="statPassed">0</h3><p>Passed</p></div>
+    <div class="stat"><h3 id="statAvg">0%</h3><p>Average</p></div>
+  </div>
+
+  <div class="filter-row" id="filterRow"></div>
+
+  <div id="resultsList"></div>
+
+  <button class="clear-btn" onclick="clearResults()">&#128465; Clear My Grade 9 Results</button>
+  <a href="index.html" class="back-link">&#8592; Back to Topics</a>
+</div>
+
+<script>
+const LOG_KEY = 'ns_assessmentResults';
+const GRADE_MARKER = 'Gr9';
+let currentFilter = 'all';
+
+function toggleTheme() {
+  const isLight = document.getElementById('body').classList.toggle('light-mode');
+  localStorage.setItem('cl_theme', isLight ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = isLight ? '&#127761;' : '&#9728;';
+}
+
+function getLog() {
+  try {
+    var all = JSON.parse(localStorage.getItem(LOG_KEY)) || [];
+    return all.filter(function(r) { return r.courseName && r.courseName.indexOf(GRADE_MARKER) > -1; });
+  } catch (e) { return []; }
+}
+
+function formatDate(ts) {
+  // timestamp is already a locale string (toLocaleString()) from the submit page
+  return ts || '';
+}
+
+function buildFilters(log) {
+  var courses = ['all'].concat([...new Set(log.map(function(r){ return r.courseName; }))]);
+  var el = document.getElementById('filterRow');
+  el.innerHTML = '';
+  if (courses.length <= 1) return;
+  courses.forEach(function(c) {
+    var btn = document.createElement('button');
+    btn.className = 'filter-btn' + (c === currentFilter ? ' active' : '');
+    btn.textContent = c === 'all' ? 'All Topics' : c.replace('Gr9 NS: ', '');
+    btn.onclick = function() { currentFilter = c; render(); };
+    el.appendChild(btn);
+  });
+}
+
+function render() {
+  var log = getLog().sort(function(a, b) { return new Date(b.timestamp) - new Date(a.timestamp); });
+  buildFilters(log);
+
+  var filtered = currentFilter === 'all' ? log : log.filter(function(r) { return r.courseName === currentFilter; });
+
+  var attempts = filtered.length;
+  var passedCount = filtered.filter(function(r) { return r.passed === 'YES'; }).length;
+  var avg = attempts ? Math.round(filtered.reduce(function(s, r) { return s + (r.score || 0); }, 0) / attempts) : 0;
+
+  document.getElementById('statAttempts').textContent = attempts;
+  document.getElementById('statPassed').textContent = passedCount;
+  document.getElementById('statAvg').textContent = avg + '%';
+
+  var list = document.getElementById('resultsList');
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="icon">&#128202;</div><h3>No assessments yet</h3><p style="margin-top:6px;font-size:0.85rem;">Complete a weekly quiz to see your results here.</p></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(function(r) {
+    var passed = r.passed === 'YES';
+    return '<div class="result-row">' +
+      '<div class="result-pct ' + (passed ? 'pass' : 'fail') + '">' + (r.score || 0) + '%</div>' +
+      '<div class="result-info">' +
+        '<div class="result-course">' + (r.courseName || 'Assessment').replace('Gr9 NS: ', '') + '</div>' +
+        '<div class="result-meta">' + (r.correct || 0) + '/' + (r.total || 0) + ' correct &middot; ' + formatDate(r.timestamp) + '</div>' +
+      '</div>' +
+      '<span class="result-badge ' + (passed ? 'pass' : 'fail') + '">' + (passed ? 'Pass' : 'Retry') + '</span>' +
+    '</div>';
+  }).join('');
+}
+
+window.onload = function() {
+  const isLight = localStorage.getItem('cl_theme') === 'light';
+  if (isLight) { document.getElementById('body').classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '&#127761;'; }
+  render();
+};
+
+function clearResults() {
+  if (!confirm('Clear all Grade 9 results? This cannot be undone. (Other grades are not affected.)')) return;
+  var all = JSON.parse(localStorage.getItem(LOG_KEY) || '[]');
+  var kept = all.filter(function(r) { return !r.courseName || r.courseName.indexOf(GRADE_MARKER) === -1; });
+  localStorage.setItem(LOG_KEY, JSON.stringify(kept));
+  currentFilter = 'all';
+  render();
+}
+</script>
+</body>
+</html>
