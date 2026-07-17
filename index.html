@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grade 9 Natural Sciences | CAPS Curriculum — DBE</title>
+<meta name="description" content="CAPS-aligned Natural Sciences for Grade 9. Free Senior Phase resources for South African learners — Life and Living, Matter and Materials, Energy and Change, Planet Earth and Beyond."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#052e1c; --green-800:#0a4227; --green-700:#0d5c36; --green-500:#16874f; --green-400:#22a862;
+    --gold:#ffb612; --gold-deep:#e0a100;
+    --bg:#080b09; --panel:#0f1512; --card:#121a15;
+    --white:#f4f7f4; --muted:#8a9a8f; --border:rgba(255,255,255,0.08);
+    --radius:16px;
+  }
+  [data-theme="light"]{
+    --bg:#f3f5f1; --panel:#ffffff; --card:#ffffff;
+    --white:#0b1a10; --muted:#5b6b60; --border:rgba(5,46,28,0.1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;transition:background .25s,color .25s;}
+  a{color:inherit;}
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+
+  /* ── TOP BAR ── */
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; padding:12px 20px;
+    background:linear-gradient(90deg,var(--green-900),var(--green-700));
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .topbar-id{display:flex; align-items:center; gap:10px;}
+  .topbar-emoji{font-size:1.6rem;}
+  .topbar-logo{width:32px; height:32px; object-fit:contain; border-radius:6px;}
+  .hero-logo{width:76px; height:76px; object-fit:contain; margin:0 auto 18px; display:block; border-radius:12px;}
+  .hero-logo[hidden]{display:none;}
+  .topbar-title{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.95rem; color:#fff; line-height:1.2;}
+  .topbar-sub{font-size:0.68rem; color:rgba(255,255,255,0.65); letter-spacing:.02em;}
+  .theme-toggle{
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); color:#fff;
+    border-radius:100px; padding:7px 14px; font-size:0.75rem; font-weight:600; cursor:pointer;
+    font-family:'DM Sans',sans-serif; display:flex; align-items:center; gap:6px;
+  }
+
+  /* ── HERO ── */
+  .hero{
+    position:relative; overflow:hidden;
+    background:radial-gradient(circle at 20% -10%, var(--green-500) 0%, transparent 55%),
+               linear-gradient(160deg, var(--green-900), var(--green-800) 60%, var(--green-700));
+    padding:52px 20px 40px; text-align:center;
+  }
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:8px; background:rgba(255,182,18,0.14);
+    border:1px solid rgba(255,182,18,0.4); color:var(--gold); border-radius:100px;
+    padding:6px 16px; font-size:0.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .hero-title{font-size:clamp(1.9rem,7vw,2.9rem); font-weight:700; color:#fff; line-height:1.05; margin-bottom:8px;}
+  .hero-title .accent{color:var(--gold);}
+  .hero-sub{color:rgba(255,255,255,0.75); font-size:0.92rem; max-width:420px; margin:0 auto 28px; line-height:1.55;}
+  .hero-stats{display:flex; justify-content:center; gap:28px; flex-wrap:wrap;}
+  .hero-stat-val{font-family:'Space Grotesk',sans-serif; font-size:1.7rem; font-weight:700; color:#fff;}
+  .hero-stat-label{font-size:0.65rem; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:.06em; margin-top:2px;}
+
+  /* ── PROGRESS STRIP ── */
+  .progress-strip{
+    max-width:760px; margin:-22px auto 0; padding:16px 20px; position:relative; z-index:5;
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+  }
+  .progress-strip-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+  .progress-strip-top span:first-child{font-size:0.8rem; font-weight:700;}
+  .progress-strip-top span:last-child{font-size:0.75rem; color:var(--muted);}
+  .progress-bar-track{height:8px; border-radius:100px; background:var(--border); overflow:hidden;}
+  .progress-bar-fill{height:100%; background:linear-gradient(90deg,var(--green-400),var(--gold)); width:0%; transition:width .3s;}
+
+  /* ── CONTENT ── */
+  .section{max-width:900px; margin:0 auto; padding:44px 20px 80px;}
+  .term-block{margin-bottom:40px;}
+  .term-head{display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap;}
+  .term-pill{
+    background:var(--green-500); color:#fff; font-size:0.7rem; font-weight:700;
+    padding:5px 14px; border-radius:100px; text-transform:uppercase; letter-spacing:.05em;
+  }
+  .term-strand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.15rem;}
+  .term-meta{font-size:0.72rem; color:var(--muted); margin-left:auto;}
+
+  .topic-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px;}
+  .topic-card{
+    background:var(--card); border:1px solid var(--border); border-left:3px solid var(--green-500);
+    border-radius:12px; padding:16px 18px; display:flex; flex-direction:column; gap:10px;
+    transition:transform .15s, border-color .15s; text-decoration:none; color:inherit;
+  }
+  a.topic-card:hover{transform:translateY(-3px); border-left-color:var(--gold); cursor:pointer;}
+  .topic-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+  .topic-icon{font-size:1.5rem;}
+  .topic-title{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:0.98rem; line-height:1.3;}
+  .topic-weeks{font-size:0.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em;}
+  .topic-status{
+    display:inline-flex; align-items:center; gap:5px; font-size:0.66rem; font-weight:700;
+    padding:3px 10px; border-radius:100px; text-transform:uppercase; letter-spacing:.04em; align-self:flex-start;
+  }
+  .status-locked{background:rgba(255,255,255,0.06); color:var(--muted);}
+  .status-start{background:rgba(22,135,79,0.15); color:var(--green-400); border:1px solid rgba(34,168,98,0.4);}
+  .status-progress{background:rgba(255,182,18,0.12); color:var(--gold); border:1px solid rgba(255,182,18,0.4);}
+  .status-complete{background:var(--gold); color:#1a1200;}
+  .topic-card.locked{opacity:0.55; cursor:default; border-left-color:var(--border);}
+  .topic-card.complete{border-left-color:var(--gold);}
+
+  /* ── FLOATING RESULTS BUTTON ── */
+  .results-fab{
+    position:fixed; bottom:20px; right:20px; z-index:50;
+    background:linear-gradient(90deg,var(--gold-deep),var(--gold)); color:#1a1200;
+    border:none; border-radius:100px; padding:13px 20px; font-weight:700; font-size:0.85rem;
+    display:flex; align-items:center; gap:8px; cursor:pointer; box-shadow:0 10px 30px rgba(255,182,18,0.35);
+    font-family:'DM Sans',sans-serif;
+  }
+
+  .revise-fab{
+    position:fixed; bottom:20px; left:20px; z-index:50;
+    background:linear-gradient(90deg,var(--green-500),var(--green-400)); color:#fff;
+    border:none; border-radius:100px; padding:13px 20px; font-weight:700; font-size:0.85rem;
+    display:flex; align-items:center; gap:8px; cursor:pointer; box-shadow:0 10px 30px rgba(34,168,98,0.35);
+    font-family:'DM Sans',sans-serif; text-decoration:none;
+  }
+
+  /* ── RESULTS MODAL ── */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:100; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--panel); border:1px solid var(--border); border-radius:18px; padding:26px;
+    max-width:420px; width:100%; max-height:80vh; overflow-y:auto;
+  }
+  .modal h3{font-size:1.2rem; margin-bottom:4px;}
+  .modal p.sub{font-size:0.78rem; color:var(--muted); margin-bottom:18px;}
+  .modal-strand-row{display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--border); font-size:0.85rem;}
+  .modal-strand-row:last-of-type{border-bottom:none;}
+  .modal-close{
+    margin-top:18px; width:100%; padding:11px; border-radius:10px; border:1px solid var(--border);
+    background:transparent; color:var(--white); font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif;
+  }
+  .mini-bar-track{flex:1; height:6px; background:var(--border); border-radius:100px; margin:0 10px; overflow:hidden;}
+  .mini-bar-fill{height:100%; background:var(--green-400);}
+
+  footer{padding:36px 20px; text-align:center; border-top:1px solid var(--border);}
+  footer .logo-text{font-family:'Space Grotesk',sans-serif; font-weight:700; margin-bottom:6px;}
+  footer .logo-text span{color:var(--gold);}
+  footer p{font-size:0.75rem; color:var(--muted); margin-top:4px;}
+  footer a{text-decoration:none; color:var(--muted);}
+  footer a:hover{color:var(--gold);}
+
+  @media (max-width:480px){ .hero{padding:40px 16px 32px;} }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="topbar">
+  <div class="topbar-id">
+    <img src="assets/logo.png" alt="Department of Basic Education logo" class="topbar-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"/>
+    <span class="topbar-emoji" style="display:none;">🔬</span>
+    <div>
+      <div class="topbar-title">Grade 9 Natural Sciences</div>
+      <div class="topbar-sub">CAPS Curriculum · DBE</div>
+    </div>
+  </div>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙 Dark</button>
+</div>
+
+<section class="hero">
+  <img src="assets/logo.png" alt="Department of Basic Education logo" class="hero-logo" onerror="this.hidden=true;"/>
+  <div class="hero-badge">🇿🇦 CAPS Aligned · Senior Phase</div>
+  <h1 class="hero-title">Grade 9<br><span class="accent">Natural Sciences</span></h1>
+  <p class="hero-sub">Free, curriculum-aligned resources covering all four CAPS knowledge strands — no login required.</p>
+  <div class="hero-stats">
+    <div><div class="hero-stat-val">22</div><div class="hero-stat-label">Topics</div></div>
+    <div><div class="hero-stat-val">4</div><div class="hero-stat-label">Terms</div></div>
+    <div><div class="hero-stat-val">4</div><div class="hero-stat-label">Strands</div></div>
+    <div><div class="hero-stat-val" style="color:var(--gold)">Free</div><div class="hero-stat-label">Access</div></div>
+  </div>
+</section>
+
+<div class="progress-strip">
+  <div class="progress-strip-top">
+    <span>Your progress</span>
+    <span id="progressLabel">0 of 22 complete</span>
+  </div>
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+</div>
+
+<div class="section" id="topicSection">
+  <!-- Term blocks injected by JS -->
+</div>
+
+<button class="results-fab" onclick="openModal()">📊 My Results</button>
+<a href="revise.html" class="revise-fab">📚 Revise</a>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>My Results</h3>
+    <p class="sub">Tracked on this device — tick topics off as you complete them.</p>
+    <div id="modalStrandRows"></div>
+    <a href="results.html" style="display:block; text-align:center; margin-top:12px; padding:11px; border-radius:10px; background:var(--green-500); color:#fff; text-decoration:none; font-weight:600; font-size:0.85rem;">View Full Results &amp; Assessment History</a>
+    <button class="modal-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<footer>
+  <div class="logo-text">Grade 9 <span>Natural Sciences</span></div>
+  <p>CAPS-aligned resources for South African learners &bull; Department of Basic Education</p>
+  <p style="margin-top:10px;">
+    <a href="https://dbeducator.github.io/">&#8592; Back to DBE Educator</a>
+    &nbsp;&bull;&nbsp;
+    <a href="privacy-policy.html">Privacy Policy</a>
+  </p>
+  <p style="margin-top:10px;">&copy; 2026 &mdash; Free educational resources</p>
+</footer>
+
+<script>
+  // Each topic maps to its own page (file) and its own storage code (used as
+  // coachG9_<code>_completedWeeks in that topic's localStorage). Only topics
+  // with `built:true` have a real page right now — the rest show "Coming Soon"
+  // until their topicN.html is built, so nothing links to a dead page.
+  var STRANDS = [
+    { id:'life-and-living', term:'Term 1', name:'Life and Living', icon:'🧬', topics:[
+      {id:'cells', code:'CEL', file:'topic1.html', built:true, totalWeeks:1, icon:'🔬', title:'Cells as the Basic Unit of Life', weeks:'1 week'},
+      {id:'digestive', code:'DIG', file:'topic2.html', built:true, totalWeeks:1, icon:'🍽️', title:'The Digestive System', weeks:'1 week'},
+      {id:'circulatory', code:'CIR', file:'topic3.html', built:true, totalWeeks:1, icon:'❤️', title:'The Circulatory System', weeks:'1 week'},
+      {id:'respiratory', code:'RES', file:'topic4.html', built:true, totalWeeks:1, icon:'🫁', title:'The Respiratory System', weeks:'1 week'},
+      {id:'musculoskeletal', code:'MSK', file:'topic5.html', built:true, totalWeeks:1, icon:'🦴', title:'The Musculo-Skeletal System', weeks:'1 week'},
+      {id:'excretory', code:'EXC', file:'topic6.html', built:true, totalWeeks:1, icon:'💧', title:'The Excretory System', weeks:'1 week'},
+      {id:'nervous', code:'NER', file:'topic7.html', built:true, totalWeeks:1, icon:'🧠', title:'The Nervous System', weeks:'1 week'},
+      {id:'reproductive', code:'REP', file:'topic8.html', built:false, totalWeeks:2, icon:'⚕️', title:'The Reproductive System', weeks:'2 weeks'},
+    ]},
+    { id:'matter-and-materials', term:'Term 2', name:'Matter and Materials', icon:'⚗️', topics:[
+      {id:'phys-chem-change', code:'PCC', file:'topic9.html', built:false, totalWeeks:1, icon:'🔥', title:'Physical and Chemical Change', weeks:'1 week'},
+      {id:'atoms', code:'ATO', file:'topic10.html', built:false, totalWeeks:2, icon:'⚛️', title:'Atoms — Structure & Bonding', weeks:'2 weeks'},
+      {id:'periodic-table', code:'PER', file:'topic11.html', built:false, totalWeeks:2, icon:'🧪', title:'The Periodic Table', weeks:'2 weeks'},
+      {id:'reactions-equations', code:'CRE', file:'topic12.html', built:false, totalWeeks:2, icon:'💥', title:'Chemical Reactions & Equations', weeks:'2 weeks'},
+      {id:'metals-acids', code:'RMA', file:'topic13.html', built:false, totalWeeks:1, icon:'🧫', title:'Reactions of Metals & Acids', weeks:'1 week'},
+      {id:'acids-bases', code:'ABN', file:'topic14.html', built:false, totalWeeks:2, icon:'🧴', title:'Acids, Bases and Neutralisation', weeks:'2 weeks'},
+    ]},
+    { id:'energy-and-change', term:'Term 3', name:'Energy and Change', icon:'⚡', topics:[
+      {id:'forces', code:'FOR', file:'topic15.html', built:false, totalWeeks:2, icon:'🏋️', title:'Forces', weeks:'2 weeks'},
+      {id:'newtons-laws', code:'NWL', file:'topic16.html', built:false, totalWeeks:2, icon:'🚀', title:"Newton's Laws (Force & Motion)", weeks:'2 weeks'},
+      {id:'electric-circuits', code:'ELC', file:'topic17.html', built:false, totalWeeks:3, icon:'🔌', title:'Electric Circuits', weeks:'3 weeks'},
+      {id:'energy-transfer', code:'ENT', file:'topic18.html', built:false, totalWeeks:3, icon:'💡', title:'Energy and Energy Transfer', weeks:'3 weeks'},
+    ]},
+    { id:'planet-earth-and-beyond', term:'Term 4', name:'Planet Earth and Beyond', icon:'🌍', topics:[
+      {id:'earth-system', code:'EAS', file:'topic19.html', built:false, totalWeeks:2, icon:'🌍', title:'The Earth as a System', weeks:'2 weeks'},
+      {id:'rock-cycle', code:'ROC', file:'topic20.html', built:false, totalWeeks:2, icon:'🪨', title:'Rock Types & the Rock Cycle', weeks:'2 weeks'},
+      {id:'mining', code:'MIN', file:'topic21.html', built:false, totalWeeks:2, icon:'⛏️', title:'Mining of Mineral Resources', weeks:'2 weeks'},
+      {id:'stars', code:'STA', file:'topic22.html', built:false, totalWeeks:3, icon:'✨', title:'Birth, Life and Death of Stars', weeks:'3 weeks'},
+    ]},
+  ];
+
+  // Reads a topic's own progress directly from the storage key its topic page writes to.
+  function getTopicWeeksDone(topic){
+    try{
+      var raw = localStorage.getItem('coachG9_' + topic.code + '_completedWeeks');
+      var arr = JSON.parse(raw) || [];
+      return Array.isArray(arr) ? arr.length : 0;
+    }catch(e){ return 0; }
+  }
+
+  function topicStatus(topic){
+    if(!topic.built) return 'locked';
+    var done = getTopicWeeksDone(topic);
+    if(done === 0) return 'start';
+    if(done >= topic.totalWeeks) return 'complete';
+    return 'progress';
+  }
+
+  function render(){
+    var section = document.getElementById('topicSection');
+    section.innerHTML = '';
+    var totalDone = 0, totalTopics = 0;
+
+    STRANDS.forEach(function(strand){
+      var block = document.createElement('div');
+      block.className = 'term-block';
+
+      var head = document.createElement('div');
+      head.className = 'term-head';
+      head.innerHTML = '<span class="term-pill">'+strand.term+'</span>' +
+        '<span class="term-strand">'+strand.icon+' '+strand.name+'</span>' +
+        '<span class="term-meta">'+strand.topics.length+' topics</span>';
+      block.appendChild(head);
+
+      var grid = document.createElement('div');
+      grid.className = 'topic-grid';
+
+      strand.topics.forEach(function(topic){
+        totalTopics++;
+        var status = topicStatus(topic);
+        if(status === 'complete') totalDone++;
+
+        var statusLabel = { locked:'Coming Soon', start:'Start', progress:'In Progress', complete:'Complete &#10003;' }[status];
+        var tag = topic.built ? 'a' : 'div';
+        var card = document.createElement(tag);
+        card.className = 'topic-card' + (status === 'locked' ? ' locked' : '') + (status === 'complete' ? ' complete' : '');
+        if(topic.built) card.href = topic.file;
+        card.innerHTML =
+          '<div class="topic-top"><span class="topic-icon">'+topic.icon+'</span></div>' +
+          '<div class="topic-title">'+topic.title+'</div>' +
+          '<div class="topic-weeks">'+topic.weeks+'</div>' +
+          '<span class="topic-status status-'+status+'">'+statusLabel+'</span>';
+        grid.appendChild(card);
+      });
+
+      block.appendChild(grid);
+      section.appendChild(block);
+    });
+
+    document.getElementById('progressLabel').textContent = totalDone + ' of ' + totalTopics + ' complete';
+    document.getElementById('progressFill').style.width = (totalTopics ? (totalDone/totalTopics*100) : 0) + '%';
+
+    renderModal();
+  }
+
+  function renderModal(){
+    var rows = document.getElementById('modalStrandRows');
+    rows.innerHTML = '';
+    STRANDS.forEach(function(strand){
+      var done = strand.topics.filter(function(t){ return topicStatus(t) === 'complete'; }).length;
+      var pct = Math.round(done / strand.topics.length * 100);
+      var row = document.createElement('div');
+      row.className = 'modal-strand-row';
+      row.innerHTML =
+        '<span>'+strand.icon+' '+strand.name+'</span>' +
+        '<div class="mini-bar-track"><div class="mini-bar-fill" style="width:'+pct+'%"></div></div>' +
+        '<span>'+done+'/'+strand.topics.length+'</span>';
+      rows.appendChild(row);
+    });
+  }
+
+  function openModal(){ document.getElementById('modalOverlay').classList.add('open'); }
+  function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
+
+  function toggleTheme(){
+    var body = document.body;
+    var btn = document.getElementById('themeToggle');
+    if(body.getAttribute('data-theme') === 'dark'){
+      body.setAttribute('data-theme','light');
+      btn.textContent = '☀️ Light';
+    } else {
+      body.setAttribute('data-theme','dark');
+      btn.textContent = '🌙 Dark';
+    }
+  }
+
+  render();
+</script>
+
+</body>
+</html>
