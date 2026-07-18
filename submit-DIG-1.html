@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Assessment Result — The Digestive System (Week 1) — Grade 9 Natural Sciences</title>
+<link rel="icon" type="image/png" href="https://dbeducator.github.io/natural-sciences-grade9/favicon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #07070c; color: #fff; min-height: 100vh; }
+  body.light-mode { background: #f0f2f5; color: #222; }
+
+  .header { background: linear-gradient(135deg, #4caf50 0%, #4caf50cc 100%); color: white; padding: 18px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+  .header-content { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 1.05rem; }
+  .header p { font-size: 0.75rem; opacity: 0.9; }
+  .theme-toggle { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 18px; cursor: pointer; font-size: 0.8rem; font-family: inherit; }
+  body.light-mode .theme-toggle { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.2); color: #333; }
+
+  .container { max-width: 600px; margin: 0 auto; padding: 30px 16px 60px; }
+
+  .score-card { background: #12121f; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 30px 24px; text-align: center; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  body.light-mode .score-card { background: #fff; }
+  .score-ring { width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; flex-direction: column; border: 8px solid rgba(255,255,255,0.08); }
+  .score-ring.pass { border-color: #4caf50; }
+  .score-ring.fail { border-color: #ef5350; }
+  .score-pct { font-size: 2.1rem; font-weight: 700; }
+  .score-frac { font-size: 0.75rem; color: #999; margin-top: 2px; }
+  .result-badge { display: inline-block; padding: 6px 18px; border-radius: 100px; font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; }
+  .result-badge.pass { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid #4caf50; }
+  .result-badge.fail { background: rgba(239,83,80,0.15); color: #ef5350; border: 1px solid #ef5350; }
+  .result-message { font-size: 0.9rem; color: #aaa; margin-top: 6px; }
+  body.light-mode .result-message { color: #666; }
+
+  .breakdown { background: #12121f; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+  body.light-mode .breakdown { background: #fff; }
+  .breakdown h3 { font-size: 0.9rem; margin-bottom: 12px; color: #4caf50; }
+  .q-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; }
+  .q-row:last-child { border-bottom: none; }
+  .q-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+  .q-icon.correct { background: rgba(76,175,80,0.15); color: #4caf50; }
+  .q-icon.wrong { background: rgba(239,83,80,0.15); color: #ef5350; }
+
+  .action-btn { display: block; text-align: center; text-decoration: none; padding: 14px; border-radius: 25px; font-weight: 700; margin-bottom: 12px; font-size: 0.9rem; }
+  .btn-primary { background: #4caf50; color: #fff; }
+  .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: inherit; }
+
+  .empty-state { text-align: center; padding: 50px 20px; color: #888; }
+</style>
+</head>
+<body id="body">
+<script>if(localStorage.getItem('cl_theme')==='light')document.getElementById('body').classList.add('light-mode');</script>
+
+<div class="header">
+  <div class="header-content">
+    <div>
+      <h1>Assessment Result</h1>
+      <p>The Digestive System &middot; Week 1</p>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">&#9728;</button>
+  </div>
+</div>
+
+<div class="container" id="container">
+  <!-- filled by JS -->
+</div>
+
+<script>
+const STORAGE_PREFIX = 'coachG9_DIG_';
+const WEEK = 1;
+const COURSE_NAME = 'The Digestive System';
+const COURSE_NAME_FULL = 'Gr9 NS: ' + COURSE_NAME + ' Week ' + WEEK;
+const CODE = 'DIG';
+const SECRET_KEY = 'CoachL2025SecureKey';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbz89hcA4Z70ZyOKnk2MBBc5kVWKG5aXljNgSzpXZbfXDOhGvtpeZXGSOadoZB_RdyPK/exec';
+const QUESTIONS = [
+  "What is the main function of the small intestine?",
+  "Which organ produces bile?",
+  "Chewing food is an example of which type of digestion?",
+  "Which enzyme breaks down starch?",
+  "What structures increase surface area for absorption in the small intestine?"
+];
+
+function toggleTheme() {
+  const isLight = document.getElementById('body').classList.toggle('light-mode');
+  localStorage.setItem('cl_theme', isLight ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = isLight ? '&#127761;' : '&#9728;';
+}
+
+function gradeAndRender() {
+  var container = document.getElementById('container');
+
+  var correctRaw = localStorage.getItem(STORAGE_PREFIX + 'correct_' + WEEK);
+  var answersRaw = localStorage.getItem(STORAGE_PREFIX + 'answers_' + WEEK);
+
+  if (!correctRaw || !answersRaw) {
+    container.innerHTML = '<div class="empty-state"><h3>No assessment attempt found</h3>' +
+      '<p style="margin-top:8px;font-size:0.85rem;">Go back to the topic and answer the questions before submitting.</p>' +
+      '<a href="topic2.html" class="action-btn btn-primary" style="margin-top:20px;">&#8592; Back to Topic</a></div>';
+    return;
+  }
+
+  var correct = JSON.parse(correctRaw);
+  var answers = JSON.parse(answersRaw);
+  var total = correct.length;
+  var right = 0;
+  var rows = [];
+
+  for (var i = 0; i < total; i++) {
+    var given = answers['q' + i];
+    var isCorrect = given !== undefined && parseInt(given) === correct[i];
+    if (isCorrect) right++;
+    rows.push({ q: QUESTIONS[i] || ('Question ' + (i + 1)), correct: isCorrect, answered: given !== undefined });
+  }
+
+  var pct = Math.round((right / total) * 100);
+  var passed = pct >= 70;
+
+  // Update this topic's own completedWeeks (drives the index page card status)
+  if (passed) {
+    var completed = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'completedWeeks') || '[]');
+    if (completed.indexOf(WEEK) === -1) {
+      completed.push(WEEK);
+      localStorage.setItem(STORAGE_PREFIX + 'completedWeeks', JSON.stringify(completed));
+    }
+  }
+
+  // Build payload matching the shared backend contract exactly (same shape as Grade 5-8)
+  var payload = {
+    secretKey: SECRET_KEY,
+    timestamp: new Date().toLocaleString(),
+    studentName: 'Anonymous',
+    studentEmail: 'anonymous@natsci.app',
+    courseName: COURSE_NAME_FULL,
+    week: WEEK,
+    score: pct,
+    correct: right,
+    total: total,
+    passed: passed ? 'YES' : 'NO'
+  };
+
+  // Log to the shared Google Sheet (same script as all other grades)
+  try {
+    var beacon = new Image();
+    beacon.src = GOOGLE_SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(payload));
+  } catch (e) { /* offline or blocked — local result is already saved below */ }
+
+  // Append to the shared results log (same key results.html reads across all grades)
+  var allR = JSON.parse(localStorage.getItem('ns_assessmentResults') || '[]');
+  allR.push(payload);
+  localStorage.setItem('ns_assessmentResults', JSON.stringify(allR));
+  localStorage.removeItem(STORAGE_PREFIX + 'answers_' + WEEK);
+
+  var html = '';
+  html += '<div class="score-card">';
+  html += '<div class="result-badge ' + (passed ? 'pass' : 'fail') + '">' + (passed ? '&#9989; PASSED' : '&#10060; NOT YET') + '</div>';
+  html += '<div class="score-ring ' + (passed ? 'pass' : 'fail') + '"><div class="score-pct">' + pct + '%</div><div class="score-frac">' + right + ' / ' + total + '</div></div>';
+  html += '<div class="result-message">' + (passed
+    ? 'Well done — you\'ve unlocked the next week!'
+    : 'You need 70% to pass. Review the lesson content and try again — you\'ve got this.') + '</div>';
+  html += '</div>';
+
+  html += '<div class="breakdown"><h3>Question Breakdown</h3>';
+  rows.forEach(function(r, i) {
+    html += '<div class="q-row"><span class="q-icon ' + (r.correct ? 'correct' : 'wrong') + '">' + (r.correct ? '&#10003;' : '&#10007;') + '</span><span>Q' + (i + 1) + ': ' + r.q + '</span></div>';
+  });
+  html += '</div>';
+
+  html += '<a href="topic2.html" class="action-btn btn-primary">&#8592; Back to Topic</a>';
+  html += '<a href="results.html" class="action-btn btn-secondary">&#128202; View All Results</a>';
+  html += '<a href="revise.html" class="action-btn btn-secondary">&#128218; Revise Vocabulary</a>';
+
+  container.innerHTML = html;
+}
+
+window.onload = function() {
+  const isLight = localStorage.getItem('cl_theme') === 'light';
+  if (isLight) { document.getElementById('body').classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '&#127761;'; }
+  gradeAndRender();
+};
+</script>
+</body>
+</html>

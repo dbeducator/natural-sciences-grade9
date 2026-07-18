@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Grade 9 NS — The Reproductive System</title>
+<link rel="icon" type="image/png" href="https://dbeducator.github.io/natural-sciences-grade9/favicon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #07070c; color: #fff; min-height: 100vh; }
+  body.light-mode { background: #f0f2f5; color: #222; }
+
+  .header { background: linear-gradient(135deg, #4caf50 0%, #4caf50cc 100%); color: white; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+  .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .course-title h1 { font-size: 1.3rem; margin-bottom: 3px; }
+  .course-title p { font-size: 0.8rem; opacity: 0.9; }
+  .user-info { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .theme-toggle { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-family: inherit; }
+  body.light-mode .theme-toggle { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.2); color: #333; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 16px 90px; }
+
+  .progress-overview { background: #12121f; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  body.light-mode .progress-overview { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin: 14px 0; position: relative; }
+  body.light-mode .progress-bar { background: #e0e0e0; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #4caf50, #66bb6a); border-radius: 10px; transition: width .4s; }
+  .progress-pct { font-size: 0.72rem; color: #4caf50; font-weight: 700; margin-top: -8px; margin-bottom: 4px; text-align: right; }
+  .progress-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .stat-card { background: #12121f; border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px; text-align: center; }
+  body.light-mode .stat-card { background: #f7f7f7; border-color: #eee; }
+  .stat-card h3 { font-size: 1.4rem; color: #4caf50; }
+  .stat-card p { font-size: 0.68rem; color: #999; margin-top: 2px; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); flex-wrap: wrap; }
+  body.light-mode .tabs { border-color: #e0e0e0; }
+  .tab { padding: 10px 20px; background: #12121f; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #aaa; }
+  body.light-mode .tab { background: #eee; color: #666; }
+  .tab.active { background: #4caf50; color: #fff; }
+
+  .module-selector { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 6px; }
+  .module-btn { padding: 10px 20px; background: #12121f; border: 2px solid #4caf50; border-radius: 25px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #4caf50; white-space: nowrap; }
+  body.light-mode .module-btn { background: #fff; }
+  .module-btn.active { background: #4caf50; color: #fff; border-color: transparent; }
+  .module-btn.completed { background: #4caf50; color: #fff; }
+
+  .day-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 6px; }
+  .day-btn { padding: 8px 16px; background: rgba(76,175,80,0.08); border: 1px solid rgba(76,175,80,0.35); border-radius: 18px; cursor: pointer; font-size: 0.78rem; font-weight: 600; color: #aaa; white-space: nowrap; }
+  body.light-mode .day-btn { color: #666; }
+  .day-btn.active { background: #4caf50; color: #fff; border-color: #4caf50; }
+  .day-btn.friday { border-color: #ffc107; }
+  .day-btn.friday.active { background: #ffc107; color: #1a1200; border-color: #ffc107; }
+
+  .content-section { display: none; }
+  .content-section.active { display: block; }
+
+  .video-section { background: #12121f; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .video-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 14px; }
+  .video-player { background: #000; border-radius: 10px; position: relative; padding-top: 56.25%; overflow: hidden; }
+  .video-title { margin-top: 10px; font-size: 0.95rem; font-weight: 600; }
+
+  .lesson-content { background: #12121f; border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .lesson-content { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); color: #222; }
+  .lesson-content h2 { color: #4caf50; margin-bottom: 16px; font-size: 1.4rem; }
+  .lesson-content h3 { color: #66bb6a; margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+  .lesson-content p { line-height: 1.75; margin-bottom: 12px; color: #ccc; }
+  body.light-mode .lesson-content p { color: #444; }
+  .lesson-content ul { margin-left: 22px; margin-bottom: 12px; }
+  .lesson-content li { margin-bottom: 8px; line-height: 1.6; color: #ccc; }
+  body.light-mode .lesson-content li { color: #444; }
+  .day-label { display: inline-flex; align-items: center; gap: 6px; background: rgba(76,175,80,0.12); color: #4caf50; font-weight: 700; font-size: 0.78rem; padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
+
+  .block { border-radius: 12px; padding: 16px; margin: 14px 0; }
+  .block h3 { display: flex; align-items: center; gap: 8px; font-size: 1rem; margin-bottom: 10px; }
+  .block ul { margin-left: 20px; }
+  .block li { margin-bottom: 8px; line-height: 1.6; }
+  .block p { margin-bottom: 8px; }
+
+  .block-objectives { background: rgba(156,39,176,0.09); border: 1px solid rgba(156,39,176,0.3); }
+  .block-objectives h3 { color: #ce93d8; }
+
+  .block-intro { background: rgba(255,255,255,0.04); border-left: 4px solid #66bb6a; border-radius: 0 10px 10px 0; }
+  .block-intro h3 { color: #4caf50; }
+
+  .block-concept { background: rgba(255,255,255,0.05); border-left: 4px solid #4caf50; border-radius: 0 10px 10px 0; }
+  .block-concept h3 { color: #4caf50; }
+  .block-concept h4 { color: #4caf50; margin-bottom: 8px; font-size: 0.92rem; }
+
+  .block-sa { background: rgba(0,150,0,0.1); border: 1px solid rgba(0,200,0,0.3); }
+  .block-sa h3 { color: #66bb6a; }
+
+  .block-dyk { background: rgba(255,215,0,0.1); border-left: 4px solid #ffc107; border-radius: 0 10px 10px 0; }
+  .block-dyk h3 { color: #ffc107; }
+
+  .block-activity { background: rgba(33,150,243,0.08); border: 1px solid rgba(33,150,243,0.3); }
+  .block-activity h3 { color: #64b5f6; }
+  .block-activity .what-to-do { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+
+  .block-summary { background: rgba(255,255,255,0.04); border-top: 3px solid #4caf50; }
+  .block-summary h3 { color: #4caf50; }
+
+  .block-vocab { background: rgba(156,39,176,0.09); border: 1px solid rgba(156,39,176,0.3); }
+  .block-vocab h3 { color: #ce93d8; }
+  .vocab-term { margin-bottom: 10px; }
+  .vocab-term b { color: #ffc107; }
+
+  .illustration { margin: 16px 0; text-align: center; }
+  .illustration img { max-width: 100%; border-radius: 10px; background: #fff; padding: 6px; cursor: zoom-in; transition: transform .2s ease, box-shadow .2s ease; }
+  .illustration img:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+  .illustration .caption { font-size: 0.72rem; color: #888; margin-top: 6px; }
+
+  .lightbox-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200;
+    display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 24px;
+    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+  }
+  .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+  .lightbox-overlay img {
+    max-width: 92vw; max-height: 78vh; border-radius: 10px; background: #fff; padding: 6px;
+    transform: scale(0.85); transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
+  }
+  .lightbox-overlay.open img { transform: scale(1); }
+  .lightbox-caption { color: #ddd; font-size: 0.8rem; margin-top: 14px; max-width: 80vw; text-align: center; }
+  .lightbox-close {
+    position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); color: #fff;
+    font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+
+  .block-mnemonic { background: rgba(0,188,212,0.08); border: 1px solid rgba(0,188,212,0.35); }
+  .block-mnemonic h3 { color: #4dd0e1; }
+  .block-mnemonic .trick { font-weight: 700; font-size: 1.02rem; color: #fff; margin-top: 4px; }
+  body.light-mode .block-mnemonic .trick { color: #222; }
+
+  .block-analogy { background: rgba(255,152,0,0.08); border: 1px solid rgba(255,152,0,0.3); }
+  .block-analogy h3 { color: #ffb74d; }
+
+  .quick-check { background: rgba(76,175,80,0.06); border: 1px dashed rgba(76,175,80,0.5); border-radius: 10px; padding: 12px 14px; margin: 14px 0; }
+  .quick-check summary { cursor: pointer; font-weight: 700; color: #4caf50; font-size: 0.88rem; }
+  .quick-check .answer { margin-top: 8px; font-size: 0.85rem; color: #ccc; }
+  body.light-mode .quick-check .answer { color: #444; }
+
+  .ad-slot { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 10px; padding: 18px; margin: 20px 0; text-align: center; color: #666; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; }
+  body.light-mode .ad-slot { background: #f5f5f5; border-color: #ddd; }
+
+  .block-mistakes { background: rgba(244,67,54,0.07); border: 1px solid rgba(244,67,54,0.3); }
+  .block-mistakes h3 { color: #ef5350; }
+  .mistake-item { margin-bottom: 10px; padding-left: 10px; border-left: 3px solid rgba(244,67,54,0.4); }
+  .mistake-item .wrong { color: #ef9a9a; text-decoration: line-through; font-size: 0.85rem; }
+  .mistake-item .right { color: #a5d6a7; font-size: 0.85rem; }
+
+  .sa-practice { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  body.light-mode .sa-practice { background: #f7f7f7; }
+  .sa-practice h4 { font-size: 0.9rem; margin-bottom: 4px; }
+  .sa-marks { font-size: 0.72rem; color: #ffc107; font-weight: 700; margin-bottom: 10px; }
+  .sa-practice textarea { width: 100%; min-height: 70px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: inherit; font-family: inherit; font-size: 0.85rem; resize: vertical; }
+  body.light-mode .sa-practice textarea { background: #fff; border-color: #ddd; }
+  .sa-reveal-btn { margin-top: 8px; padding: 8px 16px; background: rgba(76,175,80,0.15); border: 1px solid #4caf50; color: #4caf50; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .sa-model-answer { display: none; margin-top: 10px; background: rgba(76,175,80,0.08); border-left: 3px solid #4caf50; border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 0.82rem; }
+  .sa-model-answer.shown { display: block; }
+  .sa-model-answer .marks-breakdown { color: #ffc107; font-size: 0.75rem; margin-top: 6px; display: block; }
+
+  .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .resource-card { display: block; text-decoration: none; color: inherit; background: #12121f; border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,0.08); }
+  body.light-mode .resource-card { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .resource-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .resource-card h4 { font-size: 0.85rem; margin-bottom: 4px; }
+  .resource-card p { font-size: 0.72rem; color: #999; margin-bottom: 8px; }
+  .download-badge { font-size: 0.7rem; font-weight: 700; color: #4caf50; }
+
+  .assessment-section { background: #12121f; border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .assessment-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .quiz-question { background: rgba(255,255,255,0.04); padding: 16px; border-radius: 12px; margin-bottom: 16px; border-left: 4px solid #4caf50; }
+  body.light-mode .quiz-question { background: #f7f7f7; }
+  .quiz-question h4 { margin-bottom: 12px; font-size: 0.95rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option { padding: 10px 16px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
+  body.light-mode .quiz-option { background: #fff; border-color: #e0e0e0; }
+  .quiz-option input { margin-right: 8px; }
+  .submit-btn { display: block; text-align: center; text-decoration: none; padding: 14px; background: #4caf50; color: #fff; border-radius: 25px; font-weight: 700; margin-top: 16px; }
+
+  .results-fab { position: fixed; bottom: 20px; right: 16px; padding: 12px 20px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; border-radius: 28px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 18px rgba(240,147,251,0.45); text-decoration: none; z-index: 50; }
+  .revise-fab { position: fixed; bottom: 20px; left: 16px; padding: 12px 20px; background: linear-gradient(135deg, #4caf50, #66bb6a); color: #fff; border-radius: 28px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 18px rgba(76,175,80,0.4); text-decoration: none; z-index: 50; }
+</style>
+</head>
+<body id="body">
+<script>if(localStorage.getItem('cl_theme')==='light')document.getElementById('body').classList.add('light-mode');</script>
+
+<div class="header">
+  <div class="header-content">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button onclick="window.location.href='index.html'" style="background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;">&#8592;</button>
+      <div class="course-title">
+        <h1>The Reproductive System</h1>
+        <p>Grade 9 Natural Sciences &middot; Term 1 &middot; Life and Living</p>
+      </div>
+    </div>
+    <div class="user-info">
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">&#9728; Light</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="progress-overview">
+    <h2 style="font-size:1rem;">Your Progress</h2>
+    <div class="progress-pct" id="progressPct">0% complete</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-stats">
+      <div class="stat-card"><h3 id="weeksComplete">0/1</h3><p>Weeks Complete</p></div>
+      <div class="stat-card"><h3 id="videosWatched">0/2</h3><p>Videos</p></div>
+      <div class="stat-card"><h3 id="assessmentsPassed">0/1</h3><p>Passed</p></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('content', this)">Content</button>
+    <button class="tab" onclick="showTab('resources', this)">Resources</button>
+    <button class="tab" onclick="showTab('assessment', this)">Assessment</button>
+  </div>
+
+  <div class="module-selector" id="moduleSelector"></div>
+
+  <div id="content" class="content-section active">
+    <div class="video-section">
+      <h2 id="weekTitle" style="margin-bottom:10px;font-size:1.05rem;">Videos</h2>
+      <div class="video-grid">
+        <div>
+          <div class="video-player"><div id="tutorialVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>
+          <div class="video-title" id="tutorialTitle">Loading...</div>
+        </div>
+        <div>
+          <div class="video-player"><div id="basicVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>
+          <div class="video-title" id="basicTitle">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AD SLOT 1: paste AdSense <ins> code here -->
+    <div class="ad-slot">Advertisement</div>
+
+    <div class="day-tabs" id="dayTabs"></div>
+    <div class="lesson-content" id="lessonContent"></div>
+  </div>
+
+  <div id="resources" class="content-section">
+    <h2 id="resourcesTitle" style="margin-bottom:16px;font-size:1.05rem;">Resources</h2>
+    <div id="resourcesBody"></div>
+    <!-- AD SLOT 2: paste AdSense <ins> code here -->
+    <div class="ad-slot">Advertisement</div>
+  </div>
+
+  <div id="assessment" class="content-section">
+    <div id="assessmentContent"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:26px;">
+    <a href="results.html" class="submit-btn" style="max-width:280px;margin:0 auto;">View My Results</a>
+    <div style="text-align:center;margin-top:16px;">
+      <a href="index.html" style="color:#4caf50;text-decoration:none;font-size:0.85rem;">&#8592; Back to Topics</a>
+    </div>
+  </div>
+</div>
+
+<a href="results.html" class="results-fab">&#128202; My Results</a>
+<a href="revise.html" class="revise-fab">&#128218; Revise</a>
+
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)">&#10005;</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<script>
+const STORAGE_PREFIX = 'coachG9_REP_';
+const TOTAL_WEEKS = 2;
+const COURSE_NAME = 'The Reproductive System';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/REPLACE_WITH_YOUR_SCRIPT_ID/exec';
+const SECRET_KEY = 'CoachG9SecureKey';
+const BASE_URL = 'https://dbeducator.github.io/natural-sciences-grade9/';
+
+// ── One entry per week. Each week has 5 days (Mon-Thu teaching, Fri = assessment day). ──
+const weekData = {
+  1: {
+    videos: { t: '2NjzlvAV1lc', tTitle: 'The Reproductive System — Tutorial', b: 'TucxiIB76bo', bTitle: 'The Reproductive System — Explained Simply' },
+    days: [
+      { label: 'Monday', content: `<h2>&#127793; Growth, Change & a New Life Process</h2>
+<div class="block block-objectives"><h3>&#127919; Learning Objectives</h3><ul>
+<li>Explain why reproduction is considered one of the life processes</li>
+<li>Describe the general body changes that happen during puberty</li>
+<li>Use correct, respectful scientific vocabulary for this topic</li>
+</ul></div>
+<div class="block block-intro"><h3>&#128214; Introduction</h3>
+<p>Every living organism eventually dies — but life itself continues because organisms reproduce, passing genetic information on to a new generation. Reproduction is one of the seven life processes you'll have covered across your science education, alongside things like nutrition and excretion.</p>
+<p>This week we'll look at the structures involved in human reproduction and the body changes that happen during puberty, then in Week 2 we'll cover how fertilisation actually happens and the basic stages of human development before birth. As with any part of science, we'll use correct, factual, scientific language throughout.</p></div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Puberty</h3>
+<p><strong>Puberty</strong> is the stage of development when the body becomes sexually mature, triggered by hormones. It typically happens between about ages 9 and 16, though the exact timing varies a lot between individuals. General changes during puberty include:</p>
+<ul>
+<li>A growth spurt in height</li>
+<li>Development of secondary sexual characteristics (physical changes controlled by hormones, distinct from the reproductive organs themselves)</li>
+<li>Emotional and hormonal changes as the body adjusts</li>
+</ul>
+<p>These changes happen at different times and rates for different people — there is no single "normal" timeline.</p></div>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>Puberty is controlled by the same nervous and hormonal signalling systems you studied in earlier weeks — the brain's hypothalamus signals the pituitary gland, which releases hormones that trigger the changes of puberty throughout the body.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Is there one single "correct" age at which puberty should start?</summary>
+<div class="answer">No — puberty typically begins somewhere between ages 9 and 16, and the exact timing varies naturally and normally from person to person.</div>
+</details>` },
+
+      { label: 'Tuesday', content: `<h2>&#128300; The Male Reproductive System</h2>
+<div class="illustration">
+<svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;height:auto;background:#fff;border-radius:10px;padding:10px;">
+<rect x="130" y="20" width="60" height="40" rx="8" fill="#4caf50" opacity="0.15" stroke="#4caf50" stroke-width="1.5"/>
+<text x="160" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="#1b5e20">Bladder</text>
+<path d="M160 60 L160 140" stroke="#d4a72c" stroke-width="9" stroke-linecap="round"/>
+<text x="205" y="105" text-anchor="middle" font-size="11" font-weight="700" fill="#7a5c00">Urethra</text>
+<path d="M120 105 Q150 105 160 100" stroke="#666" stroke-width="1.5" fill="none"/>
+<ellipse cx="90" cy="170" rx="24" ry="30" fill="#c99a7a" stroke="#8a6650" stroke-width="2"/>
+<ellipse cx="230" cy="170" rx="24" ry="30" fill="#c99a7a" stroke="#8a6650" stroke-width="2"/>
+<text x="90" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#222">Testis</text>
+<text x="230" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#222">Testis</text>
+<path d="M90 140 Q80 130 95 122" stroke="#8a6650" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M230 140 Q240 130 225 122" stroke="#8a6650" stroke-width="4" fill="none" stroke-linecap="round"/>
+<text x="60" y="130" text-anchor="middle" font-size="9" font-weight="700" fill="#5c4433">Epididymis</text>
+<path d="M95 122 Q120 90 155 90" stroke="#d4a72c" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M225 122 Q200 90 165 90" stroke="#d4a72c" stroke-width="5" fill="none" stroke-linecap="round"/>
+<text x="120" y="80" text-anchor="middle" font-size="9" font-weight="700" fill="#7a5c00">Vas deferens</text>
+</svg>
+<div class="caption">A simplified schematic of the male reproductive structures and their connections.</div>
+</div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Male Structures & Functions</h3>
+<ul>
+<li><strong>Testes</strong> — produce sperm cells and the hormone testosterone</li>
+<li><strong>Epididymis</strong> — where sperm mature and are stored</li>
+<li><strong>Vas deferens</strong> — the tube that carries mature sperm from the epididymis</li>
+<li><strong>Urethra</strong> — carries sperm (and, separately, urine) out of the body</li>
+</ul></div>
+<div class="block block-mnemonic"><h3>&#129504; Memory Trick</h3>
+<p class="trick">T.E.V.U. &rarr; Testis makes it, Epididymis stores it, Vas deferens moves it, Urethra releases it</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Where are sperm cells actually produced?</summary>
+<div class="answer">In the testes. The epididymis is where sperm are stored and mature after being produced, not where they're made.</div>
+</details>` },
+
+      { label: 'Wednesday', content: `<h2>&#128300; The Female Reproductive System</h2>
+<div class="illustration">
+<svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px;height:auto;background:#fff;border-radius:10px;padding:10px;">
+<ellipse cx="70" cy="60" rx="26" ry="20" fill="#c99a7a" stroke="#8a6650" stroke-width="2"/>
+<ellipse cx="230" cy="60" rx="26" ry="20" fill="#c99a7a" stroke="#8a6650" stroke-width="2"/>
+<text x="70" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#222">Ovary</text>
+<text x="230" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#222">Ovary</text>
+<path d="M96 60 Q130 55 145 100" stroke="#d4a72c" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M204 60 Q170 55 155 100" stroke="#d4a72c" stroke-width="6" fill="none" stroke-linecap="round"/>
+<text x="100" y="80" text-anchor="middle" font-size="9" font-weight="700" fill="#7a5c00">Fallopian</text>
+<text x="100" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#7a5c00">tube</text>
+<path d="M120 100 Q150 90 180 100 L185 170 Q150 190 115 170 Z" fill="#e8b4c0" stroke="#c48098" stroke-width="2"/>
+<text x="150" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#5c2233">Uterus</text>
+<path d="M138 170 L162 170 L156 195 L144 195 Z" fill="#d99cb0" stroke="#c48098" stroke-width="2"/>
+<text x="150" y="188" text-anchor="middle" font-size="8" font-weight="700" fill="#5c2233">Cervix</text>
+<rect x="140" y="195" width="20" height="45" fill="#e8b4c0" stroke="#c48098" stroke-width="2"/>
+<text x="150" y="225" text-anchor="middle" font-size="9" font-weight="700" fill="#5c2233" transform="rotate(0)">Vagina</text>
+</svg>
+<div class="caption">A simplified schematic of the female reproductive structures and their connections.</div>
+</div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Female Structures & Functions</h3>
+<ul>
+<li><strong>Ovaries</strong> — produce egg cells (ova) and hormones including oestrogen</li>
+<li><strong>Fallopian tubes</strong> — carry a released egg towards the uterus; the usual site of fertilisation</li>
+<li><strong>Uterus (womb)</strong> — where a fertilised egg implants and a fetus develops during pregnancy</li>
+<li><strong>Cervix</strong> — the narrow lower opening of the uterus</li>
+<li><strong>Vagina</strong> — the muscular canal connecting the cervix to outside the body</li>
+</ul></div>
+<div class="block block-sa"><h3>&#127487; South African Connection</h3>
+<p>Understanding exactly how these reproductive structures work made a real medical breakthrough possible: South Africa's first successful IVF (in vitro fertilisation) birth took place in 1983 at Tygerberg Hospital near Cape Town, led by Dr Johan van Schouwenburg and Professor Kruger. IVF involves collecting egg cells directly from the ovaries and fertilising them outside the body, before placing the resulting embryo into the uterus — a procedure only possible because of a detailed scientific understanding of the structures you're learning this week.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Where in the female reproductive system does fertilisation usually take place?</summary>
+<div class="answer">In the fallopian tube, as the egg travels from the ovary towards the uterus.</div>
+</details>` },
+
+      { label: 'Thursday', content: `<h2>&#128221; Practical Activity</h2>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>A person born with ovaries is born with all the immature egg cells they will ever have — around one to two million at birth — while sperm, by contrast, are produced continuously from puberty onwards.</p></div>
+<div class="block block-activity"><h3>&#128300; Practical Activity: Structure & Function Table</h3>
+<div class="what-to-do"><strong>What to do:</strong> Without looking back at your notes, draw a simple two-column table. In the left column, list every reproductive structure you can remember from this week (both male and female). In the right column, write its function in your own words. Once you've done your best from memory, check back against this week's content and fill in anything you missed in a different colour pen — this shows you exactly what you already know solidly and what needs more review before Friday's quiz.</div></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Name one structure shared conceptually by both systems (i.e. both systems have a version of it) even though it looks different in each.</summary>
+<div class="answer">A tube that transports gametes (sperm or eggs): the vas deferens in the male system and the fallopian tube in the female system both serve this general transport role, though they connect to different structures.</div>
+</details>` },
+
+      { label: 'Friday', content: `<h2>&#128203; Summary & Key Vocabulary</h2>
+<div class="block block-summary"><h3>&#128203; Week Summary</h3><ul>
+<li>Reproduction is one of the life processes, allowing genetic information to pass to a new generation.</li>
+<li>Puberty is the hormonally-triggered stage where the body becomes sexually mature; timing varies naturally between individuals.</li>
+<li>Male structures: testes (produce sperm), epididymis (stores/matures sperm), vas deferens (transports sperm), urethra (releases sperm).</li>
+<li>Female structures: ovaries (produce eggs), fallopian tubes (site of fertilisation), uterus (site of fetal development), cervix, vagina.</li>
+</ul></div>
+<div class="block block-mistakes"><h3>&#9888; Common Mistakes (from past exam reports)</h3>
+<div class="mistake-item"><div class="wrong">&#10060; "Sperm are made in the epididymis."</div><div class="right">&#10004; Sperm are made in the TESTES. The epididymis is where sperm are stored and mature afterwards — not where they're produced.</div></div>
+<div class="mistake-item"><div class="wrong">&#10060; "The uterus and the vagina are the same structure."</div><div class="right">&#10004; The uterus is where a fertilised egg implants and develops; the vagina is a separate muscular canal below the cervix, connecting to outside the body.</div></div></div>
+<div class="block block-vocab"><h3>&#128273; Key Vocabulary</h3>
+<div class="vocab-term"><b>Puberty</b> — the hormonally-triggered stage of development when the body becomes sexually mature</div>
+<div class="vocab-term"><b>Testis</b> — the male organ that produces sperm cells and testosterone</div>
+<div class="vocab-term"><b>Ovary</b> — the female organ that produces egg cells and oestrogen</div>
+<div class="vocab-term"><b>Fallopian tube</b> — the tube carrying an egg from the ovary to the uterus; usual site of fertilisation</div>
+<div class="vocab-term"><b>Uterus</b> — the organ where a fertilised egg implants and develops during pregnancy</div>
+</div>
+<details class="quick-check"><summary>&#10067; Final Check: Without looking back, can you name the function of the testes and the ovaries in one sentence each?</summary>
+<div class="answer">The testes produce sperm cells and testosterone. The ovaries produce egg cells and oestrogen. If you got both, you're ready for the quiz!</div>
+</details>
+<p style="margin-top:16px;color:#4caf50;font-weight:600;">&#9989; Ready? Head to the <strong>Assessment</strong> tab above to complete this week's quiz. You need 70% to pass and unlock next week.</p>` }
+    ],
+    resources: [
+      { icon: '&#128196;', title: 'Study Notes — Reproductive System (Week 1)', desc: 'Core concepts and definitions', file: 'resources/gr9-reproductive-w1-notes.pdf' },
+      { icon: '&#128203;', title: 'Past Exam Questions', desc: 'CAPS-style exam questions', file: 'resources/gr9-reproductive-w1-pastpaper.pdf' },
+      { icon: '&#128221;', title: 'Workbook', desc: 'Practice exercises and labelling activities', file: 'resources/gr9-reproductive-w1-workbook.pdf' },
+      { icon: '&#127919;', title: 'Exam Preparation', desc: 'Revision summary and tips', file: 'resources/gr9-reproductive-w1-examprep.pdf' }
+    ],
+    assessment: [
+      { question: "Which organ produces sperm cells?", options: ["Epididymis", "Testis", "Vas deferens", "Urethra"], correct: 1 },
+      { question: "Which organ produces egg cells?", options: ["Uterus", "Cervix", "Ovary", "Vagina"], correct: 2 },
+      { question: "Where does fertilisation usually take place?", options: ["Uterus", "Ovary", "Fallopian tube", "Vagina"], correct: 2 },
+      { question: "What is the function of the uterus?", options: ["Produces sperm", "Produces eggs", "Where a fertilised egg implants and develops", "Stores urine"], correct: 2 },
+      { question: "What triggers the body changes of puberty?", options: ["Diet alone", "Hormones", "Exercise", "Age alone, with no biological trigger"], correct: 1 }
+    ],
+    shortAnswers: [
+      {
+        question: "Describe the pathway sperm cells follow from where they are made to where they leave the body, naming each structure.",
+        marks: 4,
+        modelAnswer: "Sperm are produced in the testes (1 mark), then move to the epididymis where they mature and are stored (1 mark). From there they travel through the vas deferens (1 mark), and finally leave the body through the urethra (1 mark)."
+      },
+      {
+        question: "A learner says: 'The uterus and vagina are the same organ.' Explain why this is INCORRECT.",
+        marks: 3,
+        modelAnswer: "The statement is incorrect (1 mark) because the uterus is the organ where a fertilised egg implants and develops during pregnancy (1 mark), while the vagina is a separate muscular canal connecting the cervix to outside the body (1 mark)."
+      }
+    ]
+  },
+  2: {
+    videos: { t: 'PLACEHOLDER', tTitle: 'Fertilisation & Development — Tutorial', b: 'PLACEHOLDER', bTitle: 'From Egg to Baby — Explained Simply' },
+    days: [
+      { label: 'Monday', content: `<h2>&#129466; Gametes & Fertilisation</h2>
+<div class="block block-objectives"><h3>&#127919; Learning Objectives</h3><ul>
+<li>Describe the special features of sperm and egg cells</li>
+<li>Explain what happens during fertilisation</li>
+<li>Define a zygote</li>
+</ul></div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Gametes</h3>
+<p><strong>Gametes</strong> are sex cells — sperm in males, egg cells (ova) in females. Each is specially adapted for its role:</p>
+<ul>
+<li><strong>Sperm cells</strong> are tiny and have a tail (flagellum) for swimming, and a large number of mitochondria to provide the energy needed for that movement.</li>
+<li><strong>Egg cells</strong> are far larger than sperm (just visible to the naked eye) and contain a store of nutrients to support the earliest stages of development if fertilisation occurs.</li>
+</ul>
+<h4>Fertilisation</h4>
+<p>When a sperm cell successfully fuses with an egg cell, their genetic material combines to form a single new cell called a <strong>zygote</strong> — the very first cell of a new individual, containing a full set of genetic information from both parents.</p></div>
+<div class="block block-mnemonic"><h3>&#129504; Memory Trick</h3>
+<p class="trick">Sperm + Egg &rarr; Zygote (the "Z" is the very last step — the very first new cell)</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Why do sperm cells need so many mitochondria?</summary>
+<div class="answer">Mitochondria release energy through respiration. Sperm cells need a large energy supply to power their tail (flagellum), which they use to swim towards an egg cell.</div>
+</details>` },
+
+      { label: 'Tuesday', content: `<h2>&#128198; The Menstrual Cycle — An Overview</h2>
+<div class="block block-concept"><h3>&#128300; Key Concept: A Monthly Cycle</h3>
+<p>From puberty onwards, a person with ovaries typically experiences a roughly month-long (about 28-day) cycle, preparing the body for a possible pregnancy each time:</p>
+<ul>
+<li><strong>Ovulation</strong> — around the middle of the cycle, one mature egg is released from an ovary into a fallopian tube</li>
+<li><strong>Uterine lining thickens</strong> — the lining of the uterus builds up with extra blood vessels, ready to support a fertilised egg if one implants</li>
+<li><strong>Menstruation</strong> — if the egg is NOT fertilised, the thickened uterine lining is no longer needed and is shed from the body over several days, and the cycle begins again</li>
+</ul>
+<p>If fertilisation DOES happen, the resulting zygote travels to the uterus and can implant into the thickened lining, beginning a pregnancy — and the cycle pauses.</p></div>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>Despite the name, the average menstrual cycle length varies quite a bit between individuals — anywhere from about 21 to 35 days is considered within a typical, healthy range.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: What happens to the thickened uterine lining if the egg is not fertilised?</summary>
+<div class="answer">It is shed from the body during menstruation, since it's no longer needed to support a pregnancy — and the cycle then starts again.</div>
+</details>` },
+
+      { label: 'Wednesday', content: `<h2>&#128118; From Zygote to Baby</h2>
+<div class="block block-concept"><h3>&#128300; Key Concept: The Stages of Human Development</h3>
+<ul>
+<li><strong>Zygote</strong> — the single fertilised cell, formed in the fallopian tube</li>
+<li><strong>Implantation</strong> — the developing ball of cells travels to the uterus and embeds itself into the thickened uterine lining, roughly a week after fertilisation</li>
+<li><strong>Embryo</strong> — the developing individual during the first 8 weeks, when major organs begin to form</li>
+<li><strong>Fetus</strong> — the developing individual from 8 weeks until birth, as organs continue to develop and grow</li>
+<li><strong>Birth</strong> — after a full pregnancy of around 9 months (40 weeks), the baby is born</li>
+</ul></div>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>By the end of the embryonic stage (around 8 weeks), an embryo is still smaller than a grape — yet already has the very beginnings of a heart, brain, and limbs.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: What's the key difference between how "embryo" and "fetus" are used?</summary>
+<div class="answer">"Embryo" refers to the developing individual during roughly the first 8 weeks, when major organs are first forming. "Fetus" refers to the same developing individual from about 8 weeks onward, until birth.</div>
+</details>` },
+
+      { label: 'Thursday', content: `<h2>&#128203; The Human Life Cycle & Practical Activity</h2>
+<div class="block block-concept"><h3>&#128300; Key Concept: Life Cycle Stages</h3>
+<p>Putting everything from this topic together, a human life cycle can be summarised as a repeating sequence:</p>
+<p style="text-align:center;font-weight:700;color:#4caf50;">Fertilisation &rarr; Zygote &rarr; Embryo &rarr; Fetus &rarr; Birth &rarr; Infant &rarr; Child &rarr; Adolescent (puberty) &rarr; Adult &rarr; (capable of reproducing, continuing the cycle)</p></div>
+<div class="block block-activity"><h3>&#128300; Practical Activity: Life Cycle Flowchart</h3>
+<div class="what-to-do"><strong>What to do:</strong> Draw your own flowchart of the human life cycle stages listed above, from fertilisation through to adulthood. For each stage, write one sentence describing what is happening at that point (you can use this week's and last week's notes). Circle the two stages where the biggest single jump in complexity happens, and be ready to explain your choice.</div></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Why is the human life cycle described as a "cycle" rather than just a straight line?</summary>
+<div class="answer">Because once an individual reaches adulthood, they become capable of reproducing themselves, producing gametes that can go on to start the entire cycle again in a new individual.</div>
+</details>` },
+
+      { label: 'Friday', content: `<h2>&#128203; Summary & Key Vocabulary</h2>
+<div class="block block-summary"><h3>&#128203; Week Summary</h3><ul>
+<li>Gametes (sperm and egg cells) are specially adapted sex cells; fertilisation fuses them into a single zygote.</li>
+<li>The menstrual cycle prepares the uterus for a possible pregnancy each month, with ovulation, lining thickening, and menstruation if fertilisation doesn't occur.</li>
+<li>Human development stages: zygote &rarr; implantation &rarr; embryo (first 8 weeks) &rarr; fetus (8 weeks to birth) &rarr; birth.</li>
+<li>The human life cycle repeats once a new individual reaches adulthood and becomes capable of reproduction.</li>
+</ul></div>
+<div class="block block-mistakes"><h3>&#9888; Common Mistakes (from past exam reports)</h3>
+<div class="mistake-item"><div class="wrong">&#10060; "Embryo and fetus mean the same thing."</div><div class="right">&#10004; "Embryo" refers to roughly the first 8 weeks of development, when major organs are forming. "Fetus" refers to the same individual from about 8 weeks onward until birth — the terms describe different stages, not the same thing.</div></div>
+<div class="mistake-item"><div class="wrong">&#10060; "Menstruation happens because fertilisation went wrong."</div><div class="right">&#10004; Menstruation is a normal part of the monthly cycle whenever fertilisation simply did NOT occur that month — it isn't a malfunction or an error, just the shedding of a uterine lining that wasn't needed.</div></div></div>
+<div class="block block-vocab"><h3>&#128273; Key Vocabulary</h3>
+<div class="vocab-term"><b>Gamete</b> — a sex cell (sperm or egg) involved in reproduction</div>
+<div class="vocab-term"><b>Zygote</b> — the single fertilised cell formed when a sperm and egg cell fuse</div>
+<div class="vocab-term"><b>Fertilisation</b> — the fusing of a sperm cell and an egg cell</div>
+<div class="vocab-term"><b>Embryo</b> — a developing individual during roughly the first 8 weeks after fertilisation</div>
+<div class="vocab-term"><b>Fetus</b> — a developing individual from about 8 weeks after fertilisation until birth</div>
+</div>
+<details class="quick-check"><summary>&#10067; Final Check: Without looking back, can you list the human development stages from zygote to birth in order?</summary>
+<div class="answer">Zygote &rarr; implantation &rarr; embryo (first 8 weeks) &rarr; fetus (8 weeks to birth) &rarr; birth. If you got all of these in order, you're ready for the quiz!</div>
+</details>
+<p style="margin-top:16px;color:#4caf50;font-weight:600;">&#9989; Ready? Head to the <strong>Assessment</strong> tab above to complete this week's quiz. You need 70% to pass and complete this topic.</p>` }
+    ],
+    resources: [
+      { icon: '&#128196;', title: 'Study Notes — Reproductive System (Week 2)', desc: 'Core concepts and definitions', file: 'resources/gr9-reproductive-w2-notes.pdf' },
+      { icon: '&#128203;', title: 'Past Exam Questions', desc: 'CAPS-style exam questions', file: 'resources/gr9-reproductive-w2-pastpaper.pdf' },
+      { icon: '&#128221;', title: 'Workbook', desc: 'Practice exercises and labelling activities', file: 'resources/gr9-reproductive-w2-workbook.pdf' },
+      { icon: '&#127919;', title: 'Exam Preparation', desc: 'Revision summary and tips', file: 'resources/gr9-reproductive-w2-examprep.pdf' }
+    ],
+    assessment: [
+      { question: "What is formed when a sperm cell fuses with an egg cell?", options: ["An embryo", "A zygote", "A fetus", "A gamete"], correct: 1 },
+      { question: "What happens during ovulation?", options: ["The uterus lining is shed", "A mature egg is released from an ovary", "Sperm are produced", "Implantation occurs"], correct: 1 },
+      { question: "Approximately when does an embryo become known as a fetus?", options: ["At birth", "About 8 weeks after fertilisation", "At implantation", "At ovulation"], correct: 1 },
+      { question: "Why does menstruation occur?", options: ["Because fertilisation failed abnormally", "The uterine lining is shed when fertilisation has not occurred that cycle", "The ovaries have stopped working", "It happens only during pregnancy"], correct: 1 },
+      { question: "Which structure gives sperm cells the energy to swim?", options: ["The nucleus", "A large number of mitochondria", "The cell wall", "The egg cell"], correct: 1 }
+    ],
+    shortAnswers: [
+      {
+        question: "Describe what happens during fertilisation and name the cell that results.",
+        marks: 3,
+        modelAnswer: "A sperm cell fuses with an egg cell, usually in the fallopian tube (1 mark), combining their genetic material (1 mark). This forms a single new cell called a zygote (1 mark)."
+      },
+      {
+        question: "A learner says: 'Menstruation means something has gone wrong with the body.' Explain why this is INCORRECT.",
+        marks: 3,
+        modelAnswer: "The statement is incorrect (1 mark) because menstruation is a normal, expected part of the monthly cycle (1 mark), occurring simply because fertilisation did not happen that month, so the thickened uterine lining is no longer needed and is shed (1 mark)."
+      }
+    ]
+  }
+};
+
+let currentWeek = 1;
+let currentDay = 0;
+let completedWeeks = new Set(JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'completedWeeks') || '[]'));
+
+Object.keys(weekData).forEach(function(w) {
+  localStorage.setItem(STORAGE_PREFIX + 'correct_' + w, JSON.stringify(weekData[w].assessment.map(function(q){ return q.correct; })));
+});
+
+function toggleTheme() {
+  const isLight = document.getElementById('body').classList.toggle('light-mode');
+  localStorage.setItem('cl_theme', isLight ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = isLight ? '&#9790; Dark' : '&#9728; Light';
+}
+
+function saveAnswer(week, q, val) {
+  var k = STORAGE_PREFIX + 'answers_' + week;
+  var saved = JSON.parse(localStorage.getItem(k) || '{}');
+  saved['q' + q] = val;
+  localStorage.setItem(k, JSON.stringify(saved));
+}
+
+function buildModuleSelector() {
+  var el = document.getElementById('moduleSelector');
+  el.innerHTML = '';
+  for (var w = 1; w <= TOTAL_WEEKS; w++) {
+    var btn = document.createElement('button');
+    btn.className = 'module-btn' + (completedWeeks.has(w) ? ' completed' : '');
+    btn.textContent = 'Week ' + w + (completedWeeks.has(w) ? ' \u2713' : '');
+    btn.onclick = (function(week){ return function(){ selectModule(week); }; })(w);
+    el.appendChild(btn);
+  }
+  refreshModuleButtons();
+}
+function refreshModuleButtons() {
+  document.querySelectorAll('.module-btn').forEach(function(btn, i) { btn.classList.toggle('active', i + 1 === currentWeek); });
+}
+
+function selectModule(week) { currentWeek = week; currentDay = 0; refreshModuleButtons(); updateWeekContent(); }
+
+function buildDayTabs() {
+  var week = weekData[currentWeek];
+  var el = document.getElementById('dayTabs');
+  el.innerHTML = '';
+  week.days.forEach(function(day, i) {
+    var btn = document.createElement('button');
+    btn.className = 'day-btn' + (day.label === 'Friday' ? ' friday' : '') + (i === currentDay ? ' active' : '');
+    btn.textContent = day.label;
+    btn.onclick = function(){ currentDay = i; buildDayTabs(); renderDayContent(); };
+    el.appendChild(btn);
+  });
+}
+function renderDayContent() {
+  var day = weekData[currentWeek].days[currentDay];
+  document.getElementById('lessonContent').innerHTML =
+    '<div class="day-label">&#128197; ' + day.label + ' &middot; Week ' + currentWeek + '</div>' + day.content;
+}
+
+function showTab(tabName, tabBtn) {
+  document.querySelectorAll('.content-section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById(tabName).classList.add('active');
+  if (tabBtn) tabBtn.classList.add('active');
+}
+
+function updateVideoSection() {
+  const v = weekData[currentWeek].videos;
+  const CS = '<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;"><div style="font-size:2.2rem;">&#127916;</div><p style="color:#fff;font-weight:700;margin-top:8px;font-size:0.85rem;">Video Coming Soon</p></div>';
+  const iframe = function(id) {
+    return '<iframe src="https://www.youtube.com/embed/'+id+'?rel=0&modestbranding=1&iv_load_policy=3" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>';
+  };
+  document.getElementById('tutorialVideo').innerHTML = (v.t && v.t !== 'PLACEHOLDER') ? iframe(v.t) : CS;
+  document.getElementById('basicVideo').innerHTML = (v.b && v.b !== 'PLACEHOLDER') ? iframe(v.b) : CS;
+  document.getElementById('tutorialTitle').textContent = v.tTitle;
+  document.getElementById('basicTitle').textContent = v.bTitle;
+  document.getElementById('weekTitle').textContent = 'Videos \u2014 Week ' + currentWeek;
+}
+
+function renderResources() {
+  var week = weekData[currentWeek];
+  document.getElementById('resourcesTitle').textContent = 'Resources \u2014 Week ' + currentWeek;
+  var html = '<div class="resources-grid">';
+  week.resources.forEach(function(r) {
+    var pdfUrl = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + BASE_URL + r.file;
+    html += '<a href="'+pdfUrl+'" class="resource-card" target="_blank"><div class="resource-icon">'+r.icon+'</div><h4>'+r.title+'</h4><p>'+r.desc+'</p><span class="download-badge">View PDF</span></a>';
+  });
+  html += '</div>';
+  document.getElementById('resourcesBody').innerHTML = html;
+}
+
+function renderAssessment() {
+  var week = weekData[currentWeek];
+  var html = '<h2 style="font-size:1.1rem;margin-bottom:6px;">Week ' + currentWeek + ' Assessment</h2>';
+  html += '<p style="color:#888;margin-bottom:16px;font-size:0.85rem;">'+week.assessment.length+' questions. You need 70% to pass. Available from Friday.</p>';
+  week.assessment.forEach(function(q, qi) {
+    html += '<div class="quiz-question"><h4>Q'+(qi+1)+': '+q.question+'</h4><div class="quiz-options">';
+    q.options.forEach(function(opt, oi) {
+      html += '<label class="quiz-option"><input type="radio" name="w'+currentWeek+'q'+qi+'" value="'+oi+'" onchange="saveAnswer('+currentWeek+','+qi+','+oi+')"> '+opt+'</label>';
+    });
+    html += '</div></div>';
+  });
+  html += '<a href="submit_REP_'+currentWeek+'.html" onclick="localStorage.setItem(\'cl_submit_course\',\'REP\');localStorage.setItem(\'cl_submit_week\',\''+currentWeek+'\');" class="submit-btn">Submit Assessment</a>';
+
+  if (week.shortAnswers && week.shortAnswers.length) {
+    html += '<h3 style="margin-top:26px;margin-bottom:6px;font-size:1rem;color:#4caf50;">&#9997; Short Answer Practice</h3>';
+    html += '<p style="color:#888;margin-bottom:14px;font-size:0.8rem;">Exam-style questions, marked out of the total shown. These are for practice only and don\'t affect your pass/fail score — write your answer, then reveal the model answer to check yourself.</p>';
+    week.shortAnswers.forEach(function(sa, si) {
+      var id = 'sa_' + currentWeek + '_' + si;
+      html += '<div class="sa-practice">' +
+        '<h4>Q'+(si+1)+': '+sa.question+'</h4>' +
+        '<div class="sa-marks">['+sa.marks+' marks]</div>' +
+        '<textarea placeholder="Type your answer here..." id="'+id+'_input"></textarea>' +
+        '<div><button class="sa-reveal-btn" onclick="revealModelAnswer(\''+id+'\')">Reveal Model Answer</button></div>' +
+        '<div class="sa-model-answer" id="'+id+'_answer"><strong>Model Answer:</strong> '+sa.modelAnswer+'</div>' +
+        '</div>';
+    });
+  }
+
+  document.getElementById('assessmentContent').innerHTML = html;
+}
+
+function revealModelAnswer(id) {
+  document.getElementById(id + '_answer').classList.add('shown');
+}
+
+function updateWeekContent() {
+  updateVideoSection();
+  buildDayTabs();
+  renderDayContent();
+  renderResources();
+  renderAssessment();
+}
+
+function updateProgress() {
+  const done = completedWeeks.size;
+  const pct = Math.round(done / TOTAL_WEEKS * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '% complete';
+  document.getElementById('weeksComplete').textContent = done + '/' + TOTAL_WEEKS;
+  document.getElementById('videosWatched').textContent = (done*2) + '/' + (TOTAL_WEEKS*2);
+  document.getElementById('assessmentsPassed').textContent = done + '/' + TOTAL_WEEKS;
+}
+
+// ── Lightbox: tap any illustration to zoom, with a scale+fade animation ──
+function openLightbox(src, caption) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxCaption').textContent = caption || '';
+  var overlay = document.getElementById('lightboxOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('lightboxOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+document.getElementById('lessonContent').addEventListener('click', function(e) {
+  if (e.target.tagName === 'IMG' && e.target.closest('.illustration')) {
+    var captionEl = e.target.closest('.illustration').querySelector('.caption');
+    openLightbox(e.target.src, captionEl ? captionEl.textContent : '');
+  }
+});
+
+window.onload = function() {
+  const isLight = localStorage.getItem('cl_theme') === 'light';
+  if (isLight) { document.getElementById('body').classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '&#9790; Dark'; }
+  buildModuleSelector();
+  updateProgress();
+  selectModule(1);
+};
+</script>
+</body>
+</html>

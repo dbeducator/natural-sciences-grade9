@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Grade 9 NS — Atoms — Structure & Bonding</title>
+<link rel="icon" type="image/png" href="https://dbeducator.github.io/natural-sciences-grade9/favicon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #07070c; color: #fff; min-height: 100vh; }
+  body.light-mode { background: #f0f2f5; color: #222; }
+
+  .header { background: linear-gradient(135deg, #4caf50 0%, #4caf50cc 100%); color: white; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+  .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .course-title h1 { font-size: 1.3rem; margin-bottom: 3px; }
+  .course-title p { font-size: 0.8rem; opacity: 0.9; }
+  .user-info { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .theme-toggle { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-family: inherit; }
+  body.light-mode .theme-toggle { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.2); color: #333; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 16px 90px; }
+
+  .progress-overview { background: #12121f; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  body.light-mode .progress-overview { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin: 14px 0; position: relative; }
+  body.light-mode .progress-bar { background: #e0e0e0; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #4caf50, #66bb6a); border-radius: 10px; transition: width .4s; }
+  .progress-pct { font-size: 0.72rem; color: #4caf50; font-weight: 700; margin-top: -8px; margin-bottom: 4px; text-align: right; }
+  .progress-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .stat-card { background: #12121f; border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px; text-align: center; }
+  body.light-mode .stat-card { background: #f7f7f7; border-color: #eee; }
+  .stat-card h3 { font-size: 1.4rem; color: #4caf50; }
+  .stat-card p { font-size: 0.68rem; color: #999; margin-top: 2px; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); flex-wrap: wrap; }
+  body.light-mode .tabs { border-color: #e0e0e0; }
+  .tab { padding: 10px 20px; background: #12121f; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #aaa; }
+  body.light-mode .tab { background: #eee; color: #666; }
+  .tab.active { background: #4caf50; color: #fff; }
+
+  .module-selector { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 6px; }
+  .module-btn { padding: 10px 20px; background: #12121f; border: 2px solid #4caf50; border-radius: 25px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #4caf50; white-space: nowrap; }
+  body.light-mode .module-btn { background: #fff; }
+  .module-btn.active { background: #4caf50; color: #fff; border-color: transparent; }
+  .module-btn.completed { background: #4caf50; color: #fff; }
+
+  .day-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 6px; }
+  .day-btn { padding: 8px 16px; background: rgba(76,175,80,0.08); border: 1px solid rgba(76,175,80,0.35); border-radius: 18px; cursor: pointer; font-size: 0.78rem; font-weight: 600; color: #aaa; white-space: nowrap; }
+  body.light-mode .day-btn { color: #666; }
+  .day-btn.active { background: #4caf50; color: #fff; border-color: #4caf50; }
+  .day-btn.friday { border-color: #ffc107; }
+  .day-btn.friday.active { background: #ffc107; color: #1a1200; border-color: #ffc107; }
+
+  .content-section { display: none; }
+  .content-section.active { display: block; }
+
+  .video-section { background: #12121f; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .video-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 14px; }
+  .video-player { background: #000; border-radius: 10px; position: relative; padding-top: 56.25%; overflow: hidden; }
+  .video-title { margin-top: 10px; font-size: 0.95rem; font-weight: 600; }
+
+  .lesson-content { background: #12121f; border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .lesson-content { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); color: #222; }
+  .lesson-content h2 { color: #4caf50; margin-bottom: 16px; font-size: 1.4rem; }
+  .lesson-content h3 { color: #66bb6a; margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+  .lesson-content p { line-height: 1.75; margin-bottom: 12px; color: #ccc; }
+  body.light-mode .lesson-content p { color: #444; }
+  .lesson-content ul { margin-left: 22px; margin-bottom: 12px; }
+  .lesson-content li { margin-bottom: 8px; line-height: 1.6; color: #ccc; }
+  body.light-mode .lesson-content li { color: #444; }
+  .day-label { display: inline-flex; align-items: center; gap: 6px; background: rgba(76,175,80,0.12); color: #4caf50; font-weight: 700; font-size: 0.78rem; padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
+
+  .block { border-radius: 12px; padding: 16px; margin: 14px 0; }
+  .block h3 { display: flex; align-items: center; gap: 8px; font-size: 1rem; margin-bottom: 10px; }
+  .block ul { margin-left: 20px; }
+  .block li { margin-bottom: 8px; line-height: 1.6; }
+  .block p { margin-bottom: 8px; }
+
+  .block-objectives { background: rgba(156,39,176,0.09); border: 1px solid rgba(156,39,176,0.3); }
+  .block-objectives h3 { color: #ce93d8; }
+
+  .block-intro { background: rgba(255,255,255,0.04); border-left: 4px solid #66bb6a; border-radius: 0 10px 10px 0; }
+  .block-intro h3 { color: #4caf50; }
+
+  .block-concept { background: rgba(255,255,255,0.05); border-left: 4px solid #4caf50; border-radius: 0 10px 10px 0; }
+  .block-concept h3 { color: #4caf50; }
+  .block-concept h4 { color: #4caf50; margin-bottom: 8px; font-size: 0.92rem; }
+
+  .block-sa { background: rgba(0,150,0,0.1); border: 1px solid rgba(0,200,0,0.3); }
+  .block-sa h3 { color: #66bb6a; }
+
+  .block-dyk { background: rgba(255,215,0,0.1); border-left: 4px solid #ffc107; border-radius: 0 10px 10px 0; }
+  .block-dyk h3 { color: #ffc107; }
+
+  .block-activity { background: rgba(33,150,243,0.08); border: 1px solid rgba(33,150,243,0.3); }
+  .block-activity h3 { color: #64b5f6; }
+  .block-activity .what-to-do { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+
+  .block-summary { background: rgba(255,255,255,0.04); border-top: 3px solid #4caf50; }
+  .block-summary h3 { color: #4caf50; }
+
+  .block-vocab { background: rgba(156,39,176,0.09); border: 1px solid rgba(156,39,176,0.3); }
+  .block-vocab h3 { color: #ce93d8; }
+  .vocab-term { margin-bottom: 10px; }
+  .vocab-term b { color: #ffc107; }
+
+  .illustration { margin: 16px 0; text-align: center; }
+  .illustration img { max-width: 100%; border-radius: 10px; background: #fff; padding: 6px; cursor: zoom-in; transition: transform .2s ease, box-shadow .2s ease; }
+  .illustration img:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+  .illustration .caption { font-size: 0.72rem; color: #888; margin-top: 6px; }
+
+  .lightbox-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200;
+    display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 24px;
+    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+  }
+  .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+  .lightbox-overlay img {
+    max-width: 92vw; max-height: 78vh; border-radius: 10px; background: #fff; padding: 6px;
+    transform: scale(0.85); transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
+  }
+  .lightbox-overlay.open img { transform: scale(1); }
+  .lightbox-caption { color: #ddd; font-size: 0.8rem; margin-top: 14px; max-width: 80vw; text-align: center; }
+  .lightbox-close {
+    position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); color: #fff;
+    font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+
+  .block-mnemonic { background: rgba(0,188,212,0.08); border: 1px solid rgba(0,188,212,0.35); }
+  .block-mnemonic h3 { color: #4dd0e1; }
+  .block-mnemonic .trick { font-weight: 700; font-size: 1.02rem; color: #fff; margin-top: 4px; }
+  body.light-mode .block-mnemonic .trick { color: #222; }
+
+  .block-analogy { background: rgba(255,152,0,0.08); border: 1px solid rgba(255,152,0,0.3); }
+  .block-analogy h3 { color: #ffb74d; }
+
+  .quick-check { background: rgba(76,175,80,0.06); border: 1px dashed rgba(76,175,80,0.5); border-radius: 10px; padding: 12px 14px; margin: 14px 0; }
+  .quick-check summary { cursor: pointer; font-weight: 700; color: #4caf50; font-size: 0.88rem; }
+  .quick-check .answer { margin-top: 8px; font-size: 0.85rem; color: #ccc; }
+  body.light-mode .quick-check .answer { color: #444; }
+
+  .ad-slot { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 10px; padding: 18px; margin: 20px 0; text-align: center; color: #666; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; }
+  body.light-mode .ad-slot { background: #f5f5f5; border-color: #ddd; }
+
+  .block-mistakes { background: rgba(244,67,54,0.07); border: 1px solid rgba(244,67,54,0.3); }
+  .block-mistakes h3 { color: #ef5350; }
+  .mistake-item { margin-bottom: 10px; padding-left: 10px; border-left: 3px solid rgba(244,67,54,0.4); }
+  .mistake-item .wrong { color: #ef9a9a; text-decoration: line-through; font-size: 0.85rem; }
+  .mistake-item .right { color: #a5d6a7; font-size: 0.85rem; }
+
+  .sa-practice { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  body.light-mode .sa-practice { background: #f7f7f7; }
+  .sa-practice h4 { font-size: 0.9rem; margin-bottom: 4px; }
+  .sa-marks { font-size: 0.72rem; color: #ffc107; font-weight: 700; margin-bottom: 10px; }
+  .sa-practice textarea { width: 100%; min-height: 70px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: inherit; font-family: inherit; font-size: 0.85rem; resize: vertical; }
+  body.light-mode .sa-practice textarea { background: #fff; border-color: #ddd; }
+  .sa-reveal-btn { margin-top: 8px; padding: 8px 16px; background: rgba(76,175,80,0.15); border: 1px solid #4caf50; color: #4caf50; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .sa-model-answer { display: none; margin-top: 10px; background: rgba(76,175,80,0.08); border-left: 3px solid #4caf50; border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 0.82rem; }
+  .sa-model-answer.shown { display: block; }
+  .sa-model-answer .marks-breakdown { color: #ffc107; font-size: 0.75rem; margin-top: 6px; display: block; }
+
+  .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .resource-card { display: block; text-decoration: none; color: inherit; background: #12121f; border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,0.08); }
+  body.light-mode .resource-card { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .resource-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .resource-card h4 { font-size: 0.85rem; margin-bottom: 4px; }
+  .resource-card p { font-size: 0.72rem; color: #999; margin-bottom: 8px; }
+  .download-badge { font-size: 0.7rem; font-weight: 700; color: #4caf50; }
+
+  .assessment-section { background: #12121f; border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .assessment-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .quiz-question { background: rgba(255,255,255,0.04); padding: 16px; border-radius: 12px; margin-bottom: 16px; border-left: 4px solid #4caf50; }
+  body.light-mode .quiz-question { background: #f7f7f7; }
+  .quiz-question h4 { margin-bottom: 12px; font-size: 0.95rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option { padding: 10px 16px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
+  body.light-mode .quiz-option { background: #fff; border-color: #e0e0e0; }
+  .quiz-option input { margin-right: 8px; }
+  .submit-btn { display: block; text-align: center; text-decoration: none; padding: 14px; background: #4caf50; color: #fff; border-radius: 25px; font-weight: 700; margin-top: 16px; }
+
+  .results-fab { position: fixed; bottom: 20px; right: 16px; padding: 12px 20px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; border-radius: 28px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 18px rgba(240,147,251,0.45); text-decoration: none; z-index: 50; }
+  .revise-fab { position: fixed; bottom: 20px; left: 16px; padding: 12px 20px; background: linear-gradient(135deg, #4caf50, #66bb6a); color: #fff; border-radius: 28px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 18px rgba(76,175,80,0.4); text-decoration: none; z-index: 50; }
+</style>
+</head>
+<body id="body">
+<script>if(localStorage.getItem('cl_theme')==='light')document.getElementById('body').classList.add('light-mode');</script>
+
+<div class="header">
+  <div class="header-content">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button onclick="window.location.href='index.html'" style="background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;">&#8592;</button>
+      <div class="course-title">
+        <h1>Atoms — Structure &amp; Bonding</h1>
+        <p>Grade 9 Natural Sciences &middot; Term 2 &middot; Matter and Materials</p>
+      </div>
+    </div>
+    <div class="user-info">
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">&#9728; Light</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="progress-overview">
+    <h2 style="font-size:1rem;">Your Progress</h2>
+    <div class="progress-pct" id="progressPct">0% complete</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-stats">
+      <div class="stat-card"><h3 id="weeksComplete">0/1</h3><p>Weeks Complete</p></div>
+      <div class="stat-card"><h3 id="videosWatched">0/2</h3><p>Videos</p></div>
+      <div class="stat-card"><h3 id="assessmentsPassed">0/1</h3><p>Passed</p></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('content', this)">Content</button>
+    <button class="tab" onclick="showTab('resources', this)">Resources</button>
+    <button class="tab" onclick="showTab('assessment', this)">Assessment</button>
+  </div>
+
+  <div class="module-selector" id="moduleSelector"></div>
+
+  <div id="content" class="content-section active">
+    <div class="video-section">
+      <h2 id="weekTitle" style="margin-bottom:10px;font-size:1.05rem;">Videos</h2>
+      <div class="video-grid">
+        <div>
+          <div class="video-player"><div id="tutorialVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>
+          <div class="video-title" id="tutorialTitle">Loading...</div>
+        </div>
+        <div>
+          <div class="video-player"><div id="basicVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>
+          <div class="video-title" id="basicTitle">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AD SLOT 1: paste AdSense <ins> code here -->
+    <div class="ad-slot">Advertisement</div>
+
+    <div class="day-tabs" id="dayTabs"></div>
+    <div class="lesson-content" id="lessonContent"></div>
+  </div>
+
+  <div id="resources" class="content-section">
+    <h2 id="resourcesTitle" style="margin-bottom:16px;font-size:1.05rem;">Resources</h2>
+    <div id="resourcesBody"></div>
+    <!-- AD SLOT 2: paste AdSense <ins> code here -->
+    <div class="ad-slot">Advertisement</div>
+  </div>
+
+  <div id="assessment" class="content-section">
+    <div id="assessmentContent"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:26px;">
+    <a href="results.html" class="submit-btn" style="max-width:280px;margin:0 auto;">View My Results</a>
+    <div style="text-align:center;margin-top:16px;">
+      <a href="index.html" style="color:#4caf50;text-decoration:none;font-size:0.85rem;">&#8592; Back to Topics</a>
+    </div>
+  </div>
+</div>
+
+<a href="results.html" class="results-fab">&#128202; My Results</a>
+<a href="revise.html" class="revise-fab">&#128218; Revise</a>
+
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)">&#10005;</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<script>
+const STORAGE_PREFIX = 'coachG9_ATO_';
+const TOTAL_WEEKS = 2;
+const COURSE_NAME = 'Atoms — Structure & Bonding';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/REPLACE_WITH_YOUR_SCRIPT_ID/exec';
+const SECRET_KEY = 'CoachG9SecureKey';
+const BASE_URL = 'https://dbeducator.github.io/natural-sciences-grade9/';
+
+// ── One entry per week. Each week has 5 days (Mon-Thu teaching, Fri = assessment day). ──
+const weekData = {
+  1: {
+    videos: { t: 'NgD9yHSJ29I', tTitle: 'Atomic Structure — Tutorial', b: 'OH-aSu-rWgk', bTitle: 'Atoms — Explained Simply' },
+    days: [
+      { label: 'Monday', content: `<h2>&#9883; The Building Blocks of Everything</h2>
+<div class="block block-objectives"><h3>&#127919; Learning Objectives</h3><ul>
+<li>Name the three subatomic particles and their charges</li>
+<li>Describe where each particle is found within an atom</li>
+<li>Explain what makes atoms of different elements different</li>
+</ul></div>
+<div class="block block-intro"><h3>&#128214; Introduction</h3>
+<p>Everything you touched today — your desk, your phone, the air you're breathing — is built from atoms. An atom is the smallest unit of an element that still has the properties of that element. Yet atoms themselves are made of even smaller particles, and understanding these particles unlocks almost everything else in chemistry.</p></div>
+<div class="illustration">
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Atom_Diagram.svg" alt="Diagram of an atom showing the nucleus with protons and neutrons, and electrons orbiting" loading="lazy"/>
+<div class="caption">A basic model of an atom: a central nucleus surrounded by orbiting electrons. Wikimedia Commons</div>
+</div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Three Subatomic Particles</h3>
+<table style="width:100%;font-size:0.85rem;border-collapse:collapse;margin-top:8px;">
+<tr><th style="text-align:left;padding:5px;color:#4caf50;">Particle</th><th style="text-align:left;padding:5px;color:#4caf50;">Charge</th><th style="text-align:left;padding:5px;color:#4caf50;">Location</th></tr>
+<tr><td style="padding:5px;">Proton</td><td style="padding:5px;">Positive (+)</td><td style="padding:5px;">Nucleus</td></tr>
+<tr><td style="padding:5px;">Neutron</td><td style="padding:5px;">None (neutral)</td><td style="padding:5px;">Nucleus</td></tr>
+<tr><td style="padding:5px;">Electron</td><td style="padding:5px;">Negative (&minus;)</td><td style="padding:5px;">Orbiting the nucleus</td></tr>
+</table>
+<p style="margin-top:8px;">In a neutral atom, the number of protons always equals the number of electrons, so the positive and negative charges balance out to zero overall.</p></div>
+<div class="block block-mnemonic"><h3>&#129504; Memory Trick</h3>
+<p class="trick">PN in the centre (Proton, Neutron in the Nucleus) &middot; E for Edges (Electrons on the outside)</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: An atom has 6 protons. How many electrons must it have to be neutral?</summary>
+<div class="answer">6 electrons — in a neutral atom, the number of electrons always equals the number of protons, so the positive and negative charges cancel out.</div>
+</details>` },
+
+      { label: 'Tuesday', content: `<h2>&#128290; Atomic Number & Mass Number</h2>
+<div class="block block-concept"><h3>&#128300; Key Concept: Two Important Numbers</h3>
+<ul>
+<li><strong>Atomic number</strong> — the number of protons in an atom. This defines which element it is; every atom of a given element has the same atomic number.</li>
+<li><strong>Mass number</strong> — the total number of protons PLUS neutrons in an atom's nucleus (electrons are so light they barely count towards mass).</li>
+</ul>
+<p>Number of neutrons = mass number &minus; atomic number.</p>
+<h4>Example: Carbon</h4>
+<p>Carbon has an atomic number of 6 (6 protons) and a typical mass number of 12. That means it has 12 &minus; 6 = 6 neutrons, and (being neutral) 6 electrons too.</p></div>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>Atoms of the same element can have different numbers of neutrons — these variants are called isotopes. Carbon-12 and carbon-14 are both carbon (6 protons each), but carbon-14 has 2 extra neutrons, and is famously used to date ancient fossils and artefacts.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: An atom has an atomic number of 8 and a mass number of 16. How many neutrons does it have?</summary>
+<div class="answer">8 neutrons (16 &minus; 8 = 8). This happens to be oxygen.</div>
+</details>` },
+
+      { label: 'Wednesday', content: `<h2>&#128302; Electron Arrangement</h2>
+<div class="illustration">
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;height:auto;background:#fff;border-radius:10px;padding:10px;">
+<circle cx="150" cy="150" r="18" fill="#4caf50"/>
+<text x="150" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Na</text>
+<circle cx="150" cy="150" r="50" fill="none" stroke="#ccc" stroke-width="1.5" stroke-dasharray="3,3"/>
+<circle cx="150" cy="150" r="90" fill="none" stroke="#ccc" stroke-width="1.5" stroke-dasharray="3,3"/>
+<circle cx="150" cy="150" r="130" fill="none" stroke="#ccc" stroke-width="1.5" stroke-dasharray="3,3"/>
+<circle cx="200" cy="150" r="6" fill="#1565c0"/>
+<circle cx="100" cy="150" r="6" fill="#1565c0"/>
+<circle cx="150" cy="60" r="6" fill="#1565c0"/><circle cx="203" cy="82" r="6" fill="#1565c0"/><circle cx="228" cy="150" r="6" fill="#1565c0"/><circle cx="203" cy="218" r="6" fill="#1565c0"/><circle cx="150" cy="240" r="6" fill="#1565c0"/><circle cx="97" cy="218" r="6" fill="#1565c0"/>
+<circle cx="150" cy="20" r="6" fill="#1565c0"/>
+<text x="150" y="285" text-anchor="middle" font-size="10" font-weight="700" fill="#222">Sodium: 2, 8, 1 (11 electrons total)</text>
+</svg>
+<div class="caption">Electron shells for a sodium atom — 2 in the first shell, 8 in the second, 1 in the third.</div>
+</div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Energy Levels (Shells)</h3>
+<p>Electrons don't orbit randomly — they occupy specific <strong>energy levels</strong>, often called shells, around the nucleus. Each shell can only hold a certain maximum number of electrons before the next shell starts filling:</p>
+<ul>
+<li>1st shell (closest to nucleus): up to 2 electrons</li>
+<li>2nd shell: up to 8 electrons</li>
+<li>3rd shell: up to 8 electrons (for the elements you'll meet at this level)</li>
+</ul>
+<p>Electrons fill the innermost shell first, then move outward once it's full. Sodium (11 electrons) fills as 2, 8, 1 — two full inner shells, and a single electron alone in the third shell.</p></div>
+<div class="block block-mnemonic"><h3>&#129504; Memory Trick</h3>
+<p class="trick">Shells fill like a stadium: fill the front rows (inner shells) before the back rows (outer shells)</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: An atom has 8 electrons. How would they be arranged across shells?</summary>
+<div class="answer">2, 6 — the first shell fills with 2, leaving 6 electrons for the second shell (which could hold up to 8, but only 6 are left to place). This happens to be oxygen.</div>
+</details>` },
+
+      { label: 'Thursday', content: `<h2>&#128300; Practical Activity</h2>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>If an atom's nucleus were the size of a marble placed in the centre of a football stadium, the electrons would be somewhere out near the outer seats — atoms are almost entirely empty space.</p></div>
+<div class="block block-activity"><h3>&#128300; Practical Activity: Build an Atom Model</h3>
+<div class="what-to-do"><strong>What to do:</strong> Choose any element with an atomic number from 1 to 20 (use a periodic table for reference if you have one). Using beads, dried beans, or coloured dots of paper (one colour for protons, one for neutrons, one for electrons), build a labelled model showing the nucleus with the correct number of protons and neutrons, and the correct number of electrons arranged in shells around it (remember: 2, then 8, then 8). Label your model with the element's name, atomic number, and mass number.</div></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Why do protons and neutrons contribute to mass number, but electrons essentially don't?</summary>
+<div class="answer">Protons and neutrons have approximately the same, much larger mass. Electrons are roughly 1800 times lighter, so their contribution to the atom's total mass is small enough to be considered negligible.</div>
+</details>` },
+
+      { label: 'Friday', content: `<h2>&#128203; Summary & Key Vocabulary</h2>
+<div class="block block-summary"><h3>&#128203; Week Summary</h3><ul>
+<li>Atoms are made of protons (+, nucleus), neutrons (neutral, nucleus), and electrons (&minus;, orbiting).</li>
+<li>Atomic number = number of protons; mass number = protons + neutrons.</li>
+<li>Electrons fill shells in order, closest to furthest: 2, then 8, then 8.</li>
+</ul></div>
+<div class="block block-mistakes"><h3>&#9888; Common Mistakes (from past exam reports)</h3>
+<div class="mistake-item"><div class="wrong">&#10060; "Mass number and atomic number mean the same thing."</div><div class="right">&#10004; Atomic number = protons only. Mass number = protons PLUS neutrons. They're only equal if an atom happens to have zero neutrons (true only for the most common form of hydrogen).</div></div>
+<div class="mistake-item"><div class="wrong">&#10060; "Electrons are found in the nucleus along with protons and neutrons."</div><div class="right">&#10004; Only protons and neutrons are in the nucleus. Electrons occupy shells orbiting OUTSIDE the nucleus.</div></div></div>
+<div class="block block-vocab"><h3>&#128273; Key Vocabulary</h3>
+<div class="vocab-term"><b>Proton</b> — a positively charged particle found in the nucleus</div>
+<div class="vocab-term"><b>Neutron</b> — a neutral (uncharged) particle found in the nucleus</div>
+<div class="vocab-term"><b>Electron</b> — a negatively charged particle found in shells around the nucleus</div>
+<div class="vocab-term"><b>Atomic number</b> — the number of protons in an atom</div>
+<div class="vocab-term"><b>Mass number</b> — the total number of protons and neutrons in an atom</div>
+</div>
+<details class="quick-check"><summary>&#10067; Final Check: Without looking back, what are the charges of a proton, neutron, and electron?</summary>
+<div class="answer">Proton: positive. Neutron: neutral (no charge). Electron: negative. If you got all three, you're ready for the quiz!</div>
+</details>
+<p style="margin-top:16px;color:#4caf50;font-weight:600;">&#9989; Ready? Head to the <strong>Assessment</strong> tab above to complete this week's quiz. You need 70% to pass and unlock next week.</p>` }
+    ],
+    resources: [
+      { icon: '&#128196;', title: 'Study Notes — Atomic Structure', desc: 'Core concepts and definitions', file: 'resources/gr9-atoms-w1-notes.pdf' },
+      { icon: '&#128203;', title: 'Past Exam Questions', desc: 'CAPS-style exam questions', file: 'resources/gr9-atoms-w1-pastpaper.pdf' },
+      { icon: '&#128221;', title: 'Workbook', desc: 'Practice exercises and diagrams', file: 'resources/gr9-atoms-w1-workbook.pdf' },
+      { icon: '&#127919;', title: 'Exam Preparation', desc: 'Revision summary and tips', file: 'resources/gr9-atoms-w1-examprep.pdf' }
+    ],
+    assessment: [
+      { question: "What is the charge of a proton?", options: ["Negative", "Positive", "Neutral", "It varies"], correct: 1 },
+      { question: "Where are electrons found in an atom?", options: ["In the nucleus", "Orbiting the nucleus in shells", "Nowhere — atoms have no electrons", "Fused with protons"], correct: 1 },
+      { question: "What does 'atomic number' tell you?", options: ["The number of neutrons", "The number of protons", "The total mass", "The number of shells"], correct: 1 },
+      { question: "An atom has atomic number 6 and mass number 12. How many neutrons does it have?", options: ["6", "12", "18", "0"], correct: 0 },
+      { question: "How many electrons can the first shell hold?", options: ["8", "2", "18", "1"], correct: 1 }
+    ],
+    shortAnswers: [
+      {
+        question: "Name the three subatomic particles, their charges, and their location in the atom.",
+        marks: 6,
+        modelAnswer: "Proton — positive charge — found in the nucleus (2 marks). Neutron — no charge (neutral) — found in the nucleus (2 marks). Electron — negative charge — found in shells orbiting the nucleus (2 marks)."
+      },
+      {
+        question: "An atom has an atomic number of 11 and a mass number of 23. Calculate the number of protons, neutrons, and electrons it contains.",
+        marks: 3,
+        modelAnswer: "Protons = 11 (equal to the atomic number) (1 mark). Neutrons = 23 &minus; 11 = 12 (1 mark). Electrons = 11 (equal to protons, since the atom is neutral) (1 mark)."
+      }
+    ]
+  },
+  2: {
+    videos: { t: 'PLACEHOLDER', tTitle: 'Chemical Bonding — Tutorial', b: 'PLACEHOLDER', bTitle: 'Ionic & Covalent Bonding — Explained Simply' },
+    days: [
+      { label: 'Monday', content: `<h2>&#129504; Why Atoms Bond</h2>
+<div class="block block-objectives"><h3>&#127919; Learning Objectives</h3><ul>
+<li>Explain why atoms form chemical bonds</li>
+<li>Describe how ionic bonds form</li>
+<li>Identify which types of elements typically form ionic bonds</li>
+</ul></div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Chasing Stability</h3>
+<p>Atoms are most stable when their outer shell is full. Most atoms don't naturally have a full outer shell, so they bond with other atoms — gaining, losing, or sharing electrons — to reach that stable, full-shell arrangement. This drive towards stability is the reason chemical bonds form at all.</p>
+<h3>Ionic Bonding</h3>
+<p>An <strong>ionic bond</strong> forms when one atom transfers an electron (or electrons) to another atom — typically between a metal and a non-metal. The atom that loses electrons becomes a positively charged ion (cation); the atom that gains electrons becomes a negatively charged ion (anion). The oppositely charged ions then attract each other strongly, forming the bond.</p></div>
+<div class="illustration">
+<svg viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px;height:auto;background:#fff;border-radius:10px;padding:10px;">
+<circle cx="80" cy="100" r="35" fill="#4caf50" opacity="0.85"/>
+<text x="80" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Na</text>
+<text x="80" y="112" text-anchor="middle" font-size="10" fill="#fff">2,8,1</text>
+<circle cx="260" cy="100" r="35" fill="#1565c0" opacity="0.85"/>
+<text x="260" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Cl</text>
+<text x="260" y="112" text-anchor="middle" font-size="10" fill="#fff">2,8,7</text>
+<path d="M118 90 Q170 60 222 90" stroke="#e0a100" stroke-width="2.5" fill="none" marker-end="url(#arrow2)"/>
+<text x="170" y="55" text-anchor="middle" font-size="10" font-weight="700" fill="#7a5c00">1 electron transferred</text>
+<defs><marker id="arrow2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e0a100"/></marker></defs>
+<text x="80" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#222">Na&#8314; (2,8)</text>
+<text x="260" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#222">Cl&#8315; (2,8,8)</text>
+</svg>
+<div class="caption">Ionic bonding: sodium transfers one electron to chlorine, forming Na&#8314; and Cl&#8315; ions — both now with full outer shells.</div>
+</div>
+<div class="block block-mnemonic"><h3>&#129504; Memory Trick</h3>
+<p class="trick">Ionic = I-Owe-Nic (one atom "owes" / gives away an electron to the other)</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: When sodium loses one electron to become Na&#8314;, why does it become MORE stable, not less?</summary>
+<div class="answer">Losing that one outer electron leaves sodium with a full outer shell underneath (2, 8) — the same stable arrangement as a noble gas — which is more stable than having a single lonely electron in a mostly-empty third shell.</div>
+</details>` },
+
+      { label: 'Tuesday', content: `<h2>&#129309; Covalent Bonding</h2>
+<div class="illustration">
+<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;height:auto;background:#fff;border-radius:10px;padding:10px;">
+<circle cx="115" cy="90" r="42" fill="#4caf50" opacity="0.35"/>
+<circle cx="205" cy="90" r="42" fill="#4caf50" opacity="0.35"/>
+<circle cx="90" cy="90" r="28" fill="#2e7d32" opacity="0.9"/>
+<text x="90" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">H</text>
+<circle cx="230" cy="90" r="28" fill="#2e7d32" opacity="0.9"/>
+<text x="230" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">H</text>
+<circle cx="152" cy="82" r="5" fill="#1565c0"/>
+<circle cx="168" cy="82" r="5" fill="#1565c0"/>
+<text x="160" y="140" text-anchor="middle" font-size="10" font-weight="700" fill="#222">Shared pair of electrons</text>
+</svg>
+<div class="caption">Covalent bonding: two hydrogen atoms share a pair of electrons, both achieving a stable outer shell.</div>
+</div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Sharing Instead of Transferring</h3>
+<p>A <strong>covalent bond</strong> forms when two atoms — typically two non-metals — <strong>share</strong> a pair of electrons instead of transferring them completely. Both atoms count the shared pair towards their own outer shell, letting both reach a stable, full-shell arrangement at once.</p>
+<p>Water (H&#8322;O), carbon dioxide (CO&#8322;), and oxygen gas (O&#8322;) are all held together by covalent bonds.</p></div>
+<div class="block block-mnemonic"><h3>&#129504; Memory Trick</h3>
+<p class="trick">Covalent = CO-valent = COoperating, sharing electrons rather than giving them away</p></div>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>Ionic compounds tend to form hard, brittle crystals with high melting points (like table salt), while covalent compounds are often gases, liquids, or softer solids at room temperature (like water or sugar) — a direct, testable consequence of how differently the two types of bonds hold particles together.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Would you expect the bond between two oxygen atoms (both non-metals) to be ionic or covalent?</summary>
+<div class="answer">Covalent. Ionic bonds typically form between a metal and a non-metal; when two non-metals bond, they share electrons covalently instead.</div>
+</details>` },
+
+      { label: 'Wednesday', content: `<h2>&#128142; Bonding in the Real World</h2>
+<div class="illustration">
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kimberley_Big_Hole.jpg" alt="The Big Hole diamond mine in Kimberley, South Africa" loading="lazy"/>
+<div class="caption">The Big Hole, Kimberley — the largest hand-dug excavation in the world, mined for diamonds from 1871 to 1914. Wikimedia Commons (public domain)</div>
+</div>
+<div class="block block-sa"><h3>&#127487; South African Connection</h3>
+<p>Diamonds — famously mined at Kimberley's Big Hole, once the richest diamond mine on Earth — are made of pure carbon, with every carbon atom covalently bonded to four neighbouring carbon atoms in a rigid, repeating 3D lattice. This exceptionally strong, extensive network of covalent bonds is exactly why diamond is the hardest naturally occurring material known. It's a striking real-world example of how the type of bonding between atoms directly determines the physical properties of a material.</p></div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Elements, Compounds & Mixtures</h3>
+<ul>
+<li><strong>Element</strong> — a pure substance made of only one type of atom (e.g. pure carbon, pure oxygen)</li>
+<li><strong>Compound</strong> — two or more different elements chemically bonded together in a fixed ratio (e.g. water, H&#8322;O)</li>
+<li><strong>Mixture</strong> — two or more substances physically combined, in no fixed ratio, and not chemically bonded (e.g. air, salt water)</li>
+</ul></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Is diamond an element, a compound, or a mixture?</summary>
+<div class="answer">An element — diamond is made of only one type of atom, carbon, just arranged in a particular repeating covalently-bonded structure.</div>
+</details>` },
+
+      { label: 'Thursday', content: `<h2>&#128300; Practical Activity</h2>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>Graphite — the "lead" in a pencil — is also pure carbon, just like diamond. The difference is entirely in the bonding pattern: graphite's carbon atoms form flat, covalently-bonded sheets that can slide over each other, which is exactly why it's soft enough to write with, unlike diamond.</p></div>
+<div class="block block-activity"><h3>&#128300; Practical Activity: Classify the Bond</h3>
+<div class="what-to-do"><strong>What to do:</strong> For each of the following substances, decide whether the bonding is most likely ionic or covalent, and explain your reasoning using the metal/non-metal rule: table salt (sodium chloride, NaCl), water (H&#8322;O), magnesium oxide (MgO, used in some antacids), carbon dioxide (CO&#8322;), potassium bromide (KBr). For each one, identify which elements are metals and which are non-metals to justify your answer.</div></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Magnesium oxide (MgO) — magnesium is a metal, oxygen is a non-metal. Ionic or covalent?</summary>
+<div class="answer">Ionic — magnesium (a metal) transfers electrons to oxygen (a non-metal), forming Mg&#178;&#8314; and O&#178;&#8315; ions that attract each other.</div>
+</details>` },
+
+      { label: 'Friday', content: `<h2>&#128203; Summary & Key Vocabulary</h2>
+<div class="block block-summary"><h3>&#128203; Week Summary</h3><ul>
+<li>Atoms bond to become more stable, generally by achieving a full outer electron shell.</li>
+<li>Ionic bonds: electrons transfer between a metal and a non-metal, forming attracting ions.</li>
+<li>Covalent bonds: electrons are shared, typically between two non-metals.</li>
+<li>Elements are pure single-atom-type substances; compounds are chemically bonded combinations; mixtures are physically combined, unbonded substances.</li>
+</ul></div>
+<div class="block block-mistakes"><h3>&#9888; Common Mistakes (from past exam reports)</h3>
+<div class="mistake-item"><div class="wrong">&#10060; "In covalent bonding, one atom gives its electron to the other, just like ionic bonding."</div><div class="right">&#10004; In covalent bonding, electrons are SHARED between both atoms — neither atom fully gives up or fully gains an electron, unlike the complete transfer that happens in ionic bonding.</div></div>
+<div class="mistake-item"><div class="wrong">&#10060; "A compound and a mixture are the same thing."</div><div class="right">&#10004; A compound involves elements chemically bonded in a fixed ratio (like H&#8322;O always being 2 hydrogen to 1 oxygen). A mixture is just physically combined, with no fixed ratio and no chemical bonding between the components.</div></div></div>
+<div class="block block-vocab"><h3>&#128273; Key Vocabulary</h3>
+<div class="vocab-term"><b>Ionic bond</b> — a bond formed by the transfer of electrons, typically between a metal and a non-metal</div>
+<div class="vocab-term"><b>Covalent bond</b> — a bond formed by the sharing of electrons, typically between two non-metals</div>
+<div class="vocab-term"><b>Ion</b> — a charged particle formed when an atom gains or loses electrons</div>
+<div class="vocab-term"><b>Element</b> — a pure substance made of only one type of atom</div>
+<div class="vocab-term"><b>Compound</b> — two or more elements chemically bonded together in a fixed ratio</div>
+</div>
+<details class="quick-check"><summary>&#10067; Final Check: Without looking back, what's the key difference between how ionic and covalent bonds form?</summary>
+<div class="answer">Ionic bonds form when electrons are transferred completely from one atom to another (typically metal to non-metal). Covalent bonds form when electrons are shared between atoms (typically non-metal to non-metal). If you've got both, you're ready for the quiz!</div>
+</details>
+<p style="margin-top:16px;color:#4caf50;font-weight:600;">&#9989; Ready? Head to the <strong>Assessment</strong> tab above to complete this week's quiz. You need 70% to pass and unlock the next topic.</p>` }
+    ],
+    resources: [
+      { icon: '&#128196;', title: 'Study Notes — Chemical Bonding', desc: 'Core concepts and definitions', file: 'resources/gr9-atoms-w2-notes.pdf' },
+      { icon: '&#128203;', title: 'Past Exam Questions', desc: 'CAPS-style exam questions', file: 'resources/gr9-atoms-w2-pastpaper.pdf' },
+      { icon: '&#128221;', title: 'Workbook', desc: 'Practice exercises and bonding diagrams', file: 'resources/gr9-atoms-w2-workbook.pdf' },
+      { icon: '&#127919;', title: 'Exam Preparation', desc: 'Revision summary and tips', file: 'resources/gr9-atoms-w2-examprep.pdf' }
+    ],
+    assessment: [
+      { question: "What happens to electrons during ionic bonding?", options: ["They are shared equally", "They are transferred from one atom to another", "They disappear", "Nothing happens to electrons"], correct: 1 },
+      { question: "Covalent bonds typically form between which types of elements?", options: ["Two metals", "A metal and a non-metal", "Two non-metals", "Two noble gases"], correct: 2 },
+      { question: "Why do atoms form chemical bonds?", options: ["To become heavier", "To achieve a more stable, often full, outer shell", "To change colour", "Purely by random chance with no cause"], correct: 1 },
+      { question: "What is a compound?", options: ["A single type of atom", "Two or more elements chemically bonded in a fixed ratio", "Any physical mixture of substances", "A charged particle"], correct: 1 },
+      { question: "Diamond is held together by which type of bond?", options: ["Ionic bonds", "Covalent bonds", "No bonds at all", "Metallic bonds only"], correct: 1 }
+    ],
+    shortAnswers: [
+      {
+        question: "Explain the difference between an ionic bond and a covalent bond, giving ONE example of each.",
+        marks: 4,
+        modelAnswer: "An ionic bond forms when electrons are transferred from one atom to another, typically between a metal and a non-metal (1 mark), e.g. sodium chloride, NaCl (1 mark). A covalent bond forms when electrons are shared between atoms, typically two non-metals (1 mark), e.g. water, H&#8322;O, or carbon dioxide, CO&#8322; (1 mark)."
+      },
+      {
+        question: "A learner says: 'A mixture and a compound are the same thing because both contain more than one substance.' Explain why this is INCORRECT.",
+        marks: 3,
+        modelAnswer: "The statement is incorrect (1 mark) because in a compound, the elements are chemically bonded together in a fixed ratio (1 mark), while in a mixture, the substances are only physically combined, in no fixed ratio, with no chemical bonds between them (1 mark)."
+      }
+    ]
+  }
+};
+
+let currentWeek = 1;
+let currentDay = 0;
+let completedWeeks = new Set(JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'completedWeeks') || '[]'));
+
+Object.keys(weekData).forEach(function(w) {
+  localStorage.setItem(STORAGE_PREFIX + 'correct_' + w, JSON.stringify(weekData[w].assessment.map(function(q){ return q.correct; })));
+});
+
+function toggleTheme() {
+  const isLight = document.getElementById('body').classList.toggle('light-mode');
+  localStorage.setItem('cl_theme', isLight ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = isLight ? '&#9790; Dark' : '&#9728; Light';
+}
+
+function saveAnswer(week, q, val) {
+  var k = STORAGE_PREFIX + 'answers_' + week;
+  var saved = JSON.parse(localStorage.getItem(k) || '{}');
+  saved['q' + q] = val;
+  localStorage.setItem(k, JSON.stringify(saved));
+}
+
+function buildModuleSelector() {
+  var el = document.getElementById('moduleSelector');
+  el.innerHTML = '';
+  for (var w = 1; w <= TOTAL_WEEKS; w++) {
+    var btn = document.createElement('button');
+    btn.className = 'module-btn' + (completedWeeks.has(w) ? ' completed' : '');
+    btn.textContent = 'Week ' + w + (completedWeeks.has(w) ? ' \u2713' : '');
+    btn.onclick = (function(week){ return function(){ selectModule(week); }; })(w);
+    el.appendChild(btn);
+  }
+  refreshModuleButtons();
+}
+function refreshModuleButtons() {
+  document.querySelectorAll('.module-btn').forEach(function(btn, i) { btn.classList.toggle('active', i + 1 === currentWeek); });
+}
+
+function selectModule(week) { currentWeek = week; currentDay = 0; refreshModuleButtons(); updateWeekContent(); }
+
+function buildDayTabs() {
+  var week = weekData[currentWeek];
+  var el = document.getElementById('dayTabs');
+  el.innerHTML = '';
+  week.days.forEach(function(day, i) {
+    var btn = document.createElement('button');
+    btn.className = 'day-btn' + (day.label === 'Friday' ? ' friday' : '') + (i === currentDay ? ' active' : '');
+    btn.textContent = day.label;
+    btn.onclick = function(){ currentDay = i; buildDayTabs(); renderDayContent(); };
+    el.appendChild(btn);
+  });
+}
+function renderDayContent() {
+  var day = weekData[currentWeek].days[currentDay];
+  document.getElementById('lessonContent').innerHTML =
+    '<div class="day-label">&#128197; ' + day.label + ' &middot; Week ' + currentWeek + '</div>' + day.content;
+}
+
+function showTab(tabName, tabBtn) {
+  document.querySelectorAll('.content-section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById(tabName).classList.add('active');
+  if (tabBtn) tabBtn.classList.add('active');
+}
+
+function updateVideoSection() {
+  const v = weekData[currentWeek].videos;
+  const CS = '<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;"><div style="font-size:2.2rem;">&#127916;</div><p style="color:#fff;font-weight:700;margin-top:8px;font-size:0.85rem;">Video Coming Soon</p></div>';
+  const iframe = function(id) {
+    return '<iframe src="https://www.youtube.com/embed/'+id+'?rel=0&modestbranding=1&iv_load_policy=3" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>';
+  };
+  document.getElementById('tutorialVideo').innerHTML = (v.t && v.t !== 'PLACEHOLDER') ? iframe(v.t) : CS;
+  document.getElementById('basicVideo').innerHTML = (v.b && v.b !== 'PLACEHOLDER') ? iframe(v.b) : CS;
+  document.getElementById('tutorialTitle').textContent = v.tTitle;
+  document.getElementById('basicTitle').textContent = v.bTitle;
+  document.getElementById('weekTitle').textContent = 'Videos \u2014 Week ' + currentWeek;
+}
+
+function renderResources() {
+  var week = weekData[currentWeek];
+  document.getElementById('resourcesTitle').textContent = 'Resources \u2014 Week ' + currentWeek;
+  var html = '<div class="resources-grid">';
+  week.resources.forEach(function(r) {
+    var pdfUrl = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + BASE_URL + r.file;
+    html += '<a href="'+pdfUrl+'" class="resource-card" target="_blank"><div class="resource-icon">'+r.icon+'</div><h4>'+r.title+'</h4><p>'+r.desc+'</p><span class="download-badge">View PDF</span></a>';
+  });
+  html += '</div>';
+  document.getElementById('resourcesBody').innerHTML = html;
+}
+
+function renderAssessment() {
+  var week = weekData[currentWeek];
+  var html = '<h2 style="font-size:1.1rem;margin-bottom:6px;">Week ' + currentWeek + ' Assessment</h2>';
+  html += '<p style="color:#888;margin-bottom:16px;font-size:0.85rem;">'+week.assessment.length+' questions. You need 70% to pass. Available from Friday.</p>';
+  week.assessment.forEach(function(q, qi) {
+    html += '<div class="quiz-question"><h4>Q'+(qi+1)+': '+q.question+'</h4><div class="quiz-options">';
+    q.options.forEach(function(opt, oi) {
+      html += '<label class="quiz-option"><input type="radio" name="w'+currentWeek+'q'+qi+'" value="'+oi+'" onchange="saveAnswer('+currentWeek+','+qi+','+oi+')"> '+opt+'</label>';
+    });
+    html += '</div></div>';
+  });
+  html += '<a href="submit_ATO_'+currentWeek+'.html" onclick="localStorage.setItem(\'cl_submit_course\',\'ATO\');localStorage.setItem(\'cl_submit_week\',\''+currentWeek+'\');" class="submit-btn">Submit Assessment</a>';
+
+  if (week.shortAnswers && week.shortAnswers.length) {
+    html += '<h3 style="margin-top:26px;margin-bottom:6px;font-size:1rem;color:#4caf50;">&#9997; Short Answer Practice</h3>';
+    html += '<p style="color:#888;margin-bottom:14px;font-size:0.8rem;">Exam-style questions, marked out of the total shown. These are for practice only and don\'t affect your pass/fail score — write your answer, then reveal the model answer to check yourself.</p>';
+    week.shortAnswers.forEach(function(sa, si) {
+      var id = 'sa_' + currentWeek + '_' + si;
+      html += '<div class="sa-practice">' +
+        '<h4>Q'+(si+1)+': '+sa.question+'</h4>' +
+        '<div class="sa-marks">['+sa.marks+' marks]</div>' +
+        '<textarea placeholder="Type your answer here..." id="'+id+'_input"></textarea>' +
+        '<div><button class="sa-reveal-btn" onclick="revealModelAnswer(\''+id+'\')">Reveal Model Answer</button></div>' +
+        '<div class="sa-model-answer" id="'+id+'_answer"><strong>Model Answer:</strong> '+sa.modelAnswer+'</div>' +
+        '</div>';
+    });
+  }
+
+  document.getElementById('assessmentContent').innerHTML = html;
+}
+
+function revealModelAnswer(id) {
+  document.getElementById(id + '_answer').classList.add('shown');
+}
+
+function updateWeekContent() {
+  updateVideoSection();
+  buildDayTabs();
+  renderDayContent();
+  renderResources();
+  renderAssessment();
+}
+
+function updateProgress() {
+  const done = completedWeeks.size;
+  const pct = Math.round(done / TOTAL_WEEKS * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '% complete';
+  document.getElementById('weeksComplete').textContent = done + '/' + TOTAL_WEEKS;
+  document.getElementById('videosWatched').textContent = (done*2) + '/' + (TOTAL_WEEKS*2);
+  document.getElementById('assessmentsPassed').textContent = done + '/' + TOTAL_WEEKS;
+}
+
+// ── Lightbox: tap any illustration to zoom, with a scale+fade animation ──
+function openLightbox(src, caption) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxCaption').textContent = caption || '';
+  var overlay = document.getElementById('lightboxOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('lightboxOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+document.getElementById('lessonContent').addEventListener('click', function(e) {
+  if (e.target.tagName === 'IMG' && e.target.closest('.illustration')) {
+    var captionEl = e.target.closest('.illustration').querySelector('.caption');
+    openLightbox(e.target.src, captionEl ? captionEl.textContent : '');
+  }
+});
+
+window.onload = function() {
+  const isLight = localStorage.getItem('cl_theme') === 'light';
+  if (isLight) { document.getElementById('body').classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '&#9790; Dark'; }
+  buildModuleSelector();
+  updateProgress();
+  selectModule(1);
+};
+</script>
+</body>
+</html>

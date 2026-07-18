@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Grade 9 NS — Physical and Chemical Change</title>
+<link rel="icon" type="image/png" href="https://dbeducator.github.io/natural-sciences-grade9/favicon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #07070c; color: #fff; min-height: 100vh; }
+  body.light-mode { background: #f0f2f5; color: #222; }
+
+  .header { background: linear-gradient(135deg, #4caf50 0%, #4caf50cc 100%); color: white; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+  .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .course-title h1 { font-size: 1.3rem; margin-bottom: 3px; }
+  .course-title p { font-size: 0.8rem; opacity: 0.9; }
+  .user-info { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .theme-toggle { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-family: inherit; }
+  body.light-mode .theme-toggle { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.2); color: #333; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 16px 90px; }
+
+  .progress-overview { background: #12121f; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  body.light-mode .progress-overview { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin: 14px 0; position: relative; }
+  body.light-mode .progress-bar { background: #e0e0e0; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #4caf50, #66bb6a); border-radius: 10px; transition: width .4s; }
+  .progress-pct { font-size: 0.72rem; color: #4caf50; font-weight: 700; margin-top: -8px; margin-bottom: 4px; text-align: right; }
+  .progress-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .stat-card { background: #12121f; border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 12px; text-align: center; }
+  body.light-mode .stat-card { background: #f7f7f7; border-color: #eee; }
+  .stat-card h3 { font-size: 1.4rem; color: #4caf50; }
+  .stat-card p { font-size: 0.68rem; color: #999; margin-top: 2px; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); flex-wrap: wrap; }
+  body.light-mode .tabs { border-color: #e0e0e0; }
+  .tab { padding: 10px 20px; background: #12121f; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #aaa; }
+  body.light-mode .tab { background: #eee; color: #666; }
+  .tab.active { background: #4caf50; color: #fff; }
+
+  .module-selector { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 6px; }
+  .module-btn { padding: 10px 20px; background: #12121f; border: 2px solid #4caf50; border-radius: 25px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #4caf50; white-space: nowrap; }
+  body.light-mode .module-btn { background: #fff; }
+  .module-btn.active { background: #4caf50; color: #fff; border-color: transparent; }
+  .module-btn.completed { background: #4caf50; color: #fff; }
+
+  .day-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 6px; }
+  .day-btn { padding: 8px 16px; background: rgba(76,175,80,0.08); border: 1px solid rgba(76,175,80,0.35); border-radius: 18px; cursor: pointer; font-size: 0.78rem; font-weight: 600; color: #aaa; white-space: nowrap; }
+  body.light-mode .day-btn { color: #666; }
+  .day-btn.active { background: #4caf50; color: #fff; border-color: #4caf50; }
+  .day-btn.friday { border-color: #ffc107; }
+  .day-btn.friday.active { background: #ffc107; color: #1a1200; border-color: #ffc107; }
+
+  .content-section { display: none; }
+  .content-section.active { display: block; }
+
+  .video-section { background: #12121f; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .video-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 14px; }
+  .video-player { background: #000; border-radius: 10px; position: relative; padding-top: 56.25%; overflow: hidden; }
+  .video-title { margin-top: 10px; font-size: 0.95rem; font-weight: 600; }
+
+  .lesson-content { background: #12121f; border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .lesson-content { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); color: #222; }
+  .lesson-content h2 { color: #4caf50; margin-bottom: 16px; font-size: 1.4rem; }
+  .lesson-content h3 { color: #66bb6a; margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+  .lesson-content p { line-height: 1.75; margin-bottom: 12px; color: #ccc; }
+  body.light-mode .lesson-content p { color: #444; }
+  .lesson-content ul { margin-left: 22px; margin-bottom: 12px; }
+  .lesson-content li { margin-bottom: 8px; line-height: 1.6; color: #ccc; }
+  body.light-mode .lesson-content li { color: #444; }
+  .day-label { display: inline-flex; align-items: center; gap: 6px; background: rgba(76,175,80,0.12); color: #4caf50; font-weight: 700; font-size: 0.78rem; padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
+
+  .block { border-radius: 12px; padding: 16px; margin: 14px 0; }
+  .block h3 { display: flex; align-items: center; gap: 8px; font-size: 1rem; margin-bottom: 10px; }
+  .block ul { margin-left: 20px; }
+  .block li { margin-bottom: 8px; line-height: 1.6; }
+  .block p { margin-bottom: 8px; }
+
+  .block-objectives { background: rgba(156,39,176,0.09); border: 1px solid rgba(156,39,176,0.3); }
+  .block-objectives h3 { color: #ce93d8; }
+
+  .block-intro { background: rgba(255,255,255,0.04); border-left: 4px solid #66bb6a; border-radius: 0 10px 10px 0; }
+  .block-intro h3 { color: #4caf50; }
+
+  .block-concept { background: rgba(255,255,255,0.05); border-left: 4px solid #4caf50; border-radius: 0 10px 10px 0; }
+  .block-concept h3 { color: #4caf50; }
+  .block-concept h4 { color: #4caf50; margin-bottom: 8px; font-size: 0.92rem; }
+
+  .block-sa { background: rgba(0,150,0,0.1); border: 1px solid rgba(0,200,0,0.3); }
+  .block-sa h3 { color: #66bb6a; }
+
+  .block-dyk { background: rgba(255,215,0,0.1); border-left: 4px solid #ffc107; border-radius: 0 10px 10px 0; }
+  .block-dyk h3 { color: #ffc107; }
+
+  .block-activity { background: rgba(33,150,243,0.08); border: 1px solid rgba(33,150,243,0.3); }
+  .block-activity h3 { color: #64b5f6; }
+  .block-activity .what-to-do { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+
+  .block-summary { background: rgba(255,255,255,0.04); border-top: 3px solid #4caf50; }
+  .block-summary h3 { color: #4caf50; }
+
+  .block-vocab { background: rgba(156,39,176,0.09); border: 1px solid rgba(156,39,176,0.3); }
+  .block-vocab h3 { color: #ce93d8; }
+  .vocab-term { margin-bottom: 10px; }
+  .vocab-term b { color: #ffc107; }
+
+  .illustration { margin: 16px 0; text-align: center; }
+  .illustration img { max-width: 100%; border-radius: 10px; background: #fff; padding: 6px; cursor: zoom-in; transition: transform .2s ease, box-shadow .2s ease; }
+  .illustration img:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+  .illustration .caption { font-size: 0.72rem; color: #888; margin-top: 6px; }
+
+  .lightbox-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200;
+    display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 24px;
+    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+  }
+  .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+  .lightbox-overlay img {
+    max-width: 92vw; max-height: 78vh; border-radius: 10px; background: #fff; padding: 6px;
+    transform: scale(0.85); transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
+  }
+  .lightbox-overlay.open img { transform: scale(1); }
+  .lightbox-caption { color: #ddd; font-size: 0.8rem; margin-top: 14px; max-width: 80vw; text-align: center; }
+  .lightbox-close {
+    position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); color: #fff;
+    font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+
+  .block-mnemonic { background: rgba(0,188,212,0.08); border: 1px solid rgba(0,188,212,0.35); }
+  .block-mnemonic h3 { color: #4dd0e1; }
+  .block-mnemonic .trick { font-weight: 700; font-size: 1.02rem; color: #fff; margin-top: 4px; }
+  body.light-mode .block-mnemonic .trick { color: #222; }
+
+  .block-analogy { background: rgba(255,152,0,0.08); border: 1px solid rgba(255,152,0,0.3); }
+  .block-analogy h3 { color: #ffb74d; }
+
+  .quick-check { background: rgba(76,175,80,0.06); border: 1px dashed rgba(76,175,80,0.5); border-radius: 10px; padding: 12px 14px; margin: 14px 0; }
+  .quick-check summary { cursor: pointer; font-weight: 700; color: #4caf50; font-size: 0.88rem; }
+  .quick-check .answer { margin-top: 8px; font-size: 0.85rem; color: #ccc; }
+  body.light-mode .quick-check .answer { color: #444; }
+
+  .ad-slot { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 10px; padding: 18px; margin: 20px 0; text-align: center; color: #666; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; }
+  body.light-mode .ad-slot { background: #f5f5f5; border-color: #ddd; }
+
+  .block-mistakes { background: rgba(244,67,54,0.07); border: 1px solid rgba(244,67,54,0.3); }
+  .block-mistakes h3 { color: #ef5350; }
+  .mistake-item { margin-bottom: 10px; padding-left: 10px; border-left: 3px solid rgba(244,67,54,0.4); }
+  .mistake-item .wrong { color: #ef9a9a; text-decoration: line-through; font-size: 0.85rem; }
+  .mistake-item .right { color: #a5d6a7; font-size: 0.85rem; }
+
+  .sa-practice { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  body.light-mode .sa-practice { background: #f7f7f7; }
+  .sa-practice h4 { font-size: 0.9rem; margin-bottom: 4px; }
+  .sa-marks { font-size: 0.72rem; color: #ffc107; font-weight: 700; margin-bottom: 10px; }
+  .sa-practice textarea { width: 100%; min-height: 70px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: inherit; font-family: inherit; font-size: 0.85rem; resize: vertical; }
+  body.light-mode .sa-practice textarea { background: #fff; border-color: #ddd; }
+  .sa-reveal-btn { margin-top: 8px; padding: 8px 16px; background: rgba(76,175,80,0.15); border: 1px solid #4caf50; color: #4caf50; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .sa-model-answer { display: none; margin-top: 10px; background: rgba(76,175,80,0.08); border-left: 3px solid #4caf50; border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 0.82rem; }
+  .sa-model-answer.shown { display: block; }
+  .sa-model-answer .marks-breakdown { color: #ffc107; font-size: 0.75rem; margin-top: 6px; display: block; }
+
+  .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .resource-card { display: block; text-decoration: none; color: inherit; background: #12121f; border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,0.08); }
+  body.light-mode .resource-card { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .resource-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .resource-card h4 { font-size: 0.85rem; margin-bottom: 4px; }
+  .resource-card p { font-size: 0.72rem; color: #999; margin-bottom: 8px; }
+  .download-badge { font-size: 0.7rem; font-weight: 700; color: #4caf50; }
+
+  .assessment-section { background: #12121f; border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  body.light-mode .assessment-section { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .quiz-question { background: rgba(255,255,255,0.04); padding: 16px; border-radius: 12px; margin-bottom: 16px; border-left: 4px solid #4caf50; }
+  body.light-mode .quiz-question { background: #f7f7f7; }
+  .quiz-question h4 { margin-bottom: 12px; font-size: 0.95rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option { padding: 10px 16px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
+  body.light-mode .quiz-option { background: #fff; border-color: #e0e0e0; }
+  .quiz-option input { margin-right: 8px; }
+  .submit-btn { display: block; text-align: center; text-decoration: none; padding: 14px; background: #4caf50; color: #fff; border-radius: 25px; font-weight: 700; margin-top: 16px; }
+
+  .results-fab { position: fixed; bottom: 20px; right: 16px; padding: 12px 20px; background: linear-gradient(135deg, #f093fb, #f5576c); color: #fff; border-radius: 28px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 18px rgba(240,147,251,0.45); text-decoration: none; z-index: 50; }
+  .revise-fab { position: fixed; bottom: 20px; left: 16px; padding: 12px 20px; background: linear-gradient(135deg, #4caf50, #66bb6a); color: #fff; border-radius: 28px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 18px rgba(76,175,80,0.4); text-decoration: none; z-index: 50; }
+</style>
+</head>
+<body id="body">
+<script>if(localStorage.getItem('cl_theme')==='light')document.getElementById('body').classList.add('light-mode');</script>
+
+<div class="header">
+  <div class="header-content">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button onclick="window.location.href='index.html'" style="background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;">&#8592;</button>
+      <div class="course-title">
+        <h1>Physical and Chemical Change</h1>
+        <p>Grade 9 Natural Sciences &middot; Term 2 &middot; Matter and Materials</p>
+      </div>
+    </div>
+    <div class="user-info">
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">&#9728; Light</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="progress-overview">
+    <h2 style="font-size:1rem;">Your Progress</h2>
+    <div class="progress-pct" id="progressPct">0% complete</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-stats">
+      <div class="stat-card"><h3 id="weeksComplete">0/1</h3><p>Weeks Complete</p></div>
+      <div class="stat-card"><h3 id="videosWatched">0/2</h3><p>Videos</p></div>
+      <div class="stat-card"><h3 id="assessmentsPassed">0/1</h3><p>Passed</p></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('content', this)">Content</button>
+    <button class="tab" onclick="showTab('resources', this)">Resources</button>
+    <button class="tab" onclick="showTab('assessment', this)">Assessment</button>
+  </div>
+
+  <div class="module-selector" id="moduleSelector"></div>
+
+  <div id="content" class="content-section active">
+    <div class="video-section">
+      <h2 id="weekTitle" style="margin-bottom:10px;font-size:1.05rem;">Videos</h2>
+      <div class="video-grid">
+        <div>
+          <div class="video-player"><div id="tutorialVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>
+          <div class="video-title" id="tutorialTitle">Loading...</div>
+        </div>
+        <div>
+          <div class="video-player"><div id="basicVideo" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>
+          <div class="video-title" id="basicTitle">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AD SLOT 1: paste AdSense <ins> code here -->
+    <div class="ad-slot">Advertisement</div>
+
+    <div class="day-tabs" id="dayTabs"></div>
+    <div class="lesson-content" id="lessonContent"></div>
+  </div>
+
+  <div id="resources" class="content-section">
+    <h2 id="resourcesTitle" style="margin-bottom:16px;font-size:1.05rem;">Resources</h2>
+    <div id="resourcesBody"></div>
+    <!-- AD SLOT 2: paste AdSense <ins> code here -->
+    <div class="ad-slot">Advertisement</div>
+  </div>
+
+  <div id="assessment" class="content-section">
+    <div id="assessmentContent"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:26px;">
+    <a href="results.html" class="submit-btn" style="max-width:280px;margin:0 auto;">View My Results</a>
+    <div style="text-align:center;margin-top:16px;">
+      <a href="index.html" style="color:#4caf50;text-decoration:none;font-size:0.85rem;">&#8592; Back to Topics</a>
+    </div>
+  </div>
+</div>
+
+<a href="results.html" class="results-fab">&#128202; My Results</a>
+<a href="revise.html" class="revise-fab">&#128218; Revise</a>
+
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)">&#10005;</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<script>
+const STORAGE_PREFIX = 'coachG9_PCC_';
+const TOTAL_WEEKS = 1;
+const COURSE_NAME = 'Physical and Chemical Change';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/REPLACE_WITH_YOUR_SCRIPT_ID/exec';
+const SECRET_KEY = 'CoachG9SecureKey';
+const BASE_URL = 'https://dbeducator.github.io/natural-sciences-grade9/';
+
+// ── One entry per week. Each week has 5 days (Mon-Thu teaching, Fri = assessment day). ──
+const weekData = {
+  1: {
+    videos: { t: '7zyiW-13jzk', tTitle: 'Physical and Chemical Change — Tutorial', b: 'x49BtB5dOwg', bTitle: 'Physical and Chemical Change — Explained Simply' },
+    days: [
+      { label: 'Monday', content: `<h2>&#129517; Matter That Changes</h2>
+<div class="block block-objectives"><h3>&#127919; Learning Objectives</h3><ul>
+<li>Define a physical change and give examples</li>
+<li>Explain why a physical change does not form a new substance</li>
+<li>Relate physical changes to changes of state</li>
+</ul></div>
+<div class="block block-intro"><h3>&#128214; Introduction</h3>
+<p>Welcome to Term 2 and a brand new strand: Matter and Materials! Everything around you — your desk, the air you breathe, the water you drink — is matter, and matter is constantly changing form. This term we'll dig into what matter is actually made of and how it behaves. We're starting with one of the most useful distinctions in all of chemistry: the difference between a physical change and a chemical change.</p></div>
+<div class="illustration">
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Melting_ice.JPG" alt="Ice melting into water" loading="lazy"/>
+<div class="caption">Melting ice — a physical change. The substance is still H&#8322;O throughout. Wikimedia Commons</div>
+</div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Physical Change</h3>
+<p>A <strong>physical change</strong> alters the form, size, or state of a substance, but does <strong>not</strong> create a new substance. The chemical composition stays exactly the same before and after.</p>
+<ul>
+<li>Melting ice &rarr; still H&#8322;O, just a different state</li>
+<li>Cutting paper into smaller pieces &rarr; still paper</li>
+<li>Dissolving sugar in water &rarr; the sugar is still sugar, just spread through the water</li>
+<li>Bending a piece of wire &rarr; still the same metal</li>
+</ul>
+<p>Physical changes are usually — though not always — reversible: you can freeze water back into ice, or evaporate the water to get the sugar back.</p></div>
+<div class="block block-mnemonic"><h3>&#129504; Memory Trick</h3>
+<p class="trick">Physical change = same suSTANCE, different STANCE (form/shape/state)</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Why is dissolving sugar in tea considered a physical change?</summary>
+<div class="answer">The sugar hasn't turned into a different substance — it's still sugar, just spread out (dissolved) among the water molecules. You could get the sugar back by evaporating the water, which confirms no new substance formed.</div>
+</details>` },
+
+      { label: 'Tuesday', content: `<h2>&#128293; Chemical Change</h2>
+<div class="illustration">
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rust_screw.jpg" alt="A rusted screw showing iron oxide formation" loading="lazy"/>
+<div class="caption">Rust (iron oxide) forming on a screw — a chemical change. Iron + oxygen has become a genuinely new substance. Wikimedia Commons</div>
+</div>
+<div class="block block-concept"><h3>&#128300; Key Concept: Chemical Change</h3>
+<p>A <strong>chemical change</strong> occurs when substances react to form one or more brand-new substances, with different properties from what you started with. Unlike physical changes, chemical changes are usually difficult or impossible to reverse.</p>
+<ul>
+<li>Rusting: iron + oxygen &rarr; iron oxide (a new substance, with different properties from either iron or oxygen)</li>
+<li>Burning wood &rarr; ash, smoke, and gases (very different from the original wood)</li>
+<li>Cooking an egg &rarr; the proteins permanently change structure; you can't "uncook" it</li>
+</ul>
+<h4>Signs That a Chemical Change Has Happened</h4>
+<ul>
+<li>A colour change</li>
+<li>Production of a gas (bubbles)</li>
+<li>A temperature change (getting hotter or colder on its own)</li>
+<li>A new smell</li>
+<li>Formation of a precipitate (a solid appearing in a liquid mixture)</li>
+<li>Light being produced</li>
+</ul></div>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>Rusting is a genuine chemical reaction between iron, oxygen, and water — which is exactly why keeping metal dry or coating it in paint (blocking oxygen and water from reaching it) is such an effective way to prevent it.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Name two signs that would tell you a chemical change has probably happened.</summary>
+<div class="answer">Any two of: a colour change, gas bubbles forming, a temperature change, a new smell, a solid (precipitate) forming, or light being produced.</div>
+</details>` },
+
+      { label: 'Wednesday', content: `<h2>&#9995; Reversible vs Irreversible Changes</h2>
+<div class="block block-concept"><h3>&#128300; Key Concept: Can You Undo It?</h3>
+<table style="width:100%;font-size:0.85rem;border-collapse:collapse;margin-top:8px;">
+<tr><th style="text-align:left;padding:5px;color:#4caf50;">Feature</th><th style="text-align:left;padding:5px;color:#4caf50;">Physical Change</th><th style="text-align:left;padding:5px;color:#4caf50;">Chemical Change</th></tr>
+<tr><td style="padding:5px;">New substance formed?</td><td style="padding:5px;">No</td><td style="padding:5px;">Yes</td></tr>
+<tr><td style="padding:5px;">Usually reversible?</td><td style="padding:5px;">Yes</td><td style="padding:5px;">Rarely / with difficulty</td></tr>
+<tr><td style="padding:5px;">Examples</td><td style="padding:5px;">Melting, dissolving, cutting</td><td style="padding:5px;">Burning, rusting, cooking</td></tr>
+</table>
+<p>It's a useful general rule, but be careful: reversibility is a helpful clue, not the actual definition. The true test of a chemical change is always whether a genuinely new substance with different properties has formed.</p></div>
+<div class="illustration">
+<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Beef_biltong.JPG" alt="South African biltong, air-dried cured meat" loading="lazy"/>
+<div class="caption">Biltong — South African air-dried, cured meat. Wiki Loves Africa 2014, Wikimedia Commons (CC BY-SA 4.0)</div>
+</div>
+<div class="block block-sa"><h3>&#127487; South African Connection</h3>
+<p>Making biltong is a great everyday example of a physical change. Strips of meat are salted, spiced with vinegar and coriander, and air-dried — removing water through evaporation. The meat is still fundamentally the same substance (protein and fat) throughout; what's changed is its water content and texture, not its chemical identity. This is why biltong-making is classified as a physical, not chemical, process — even though the texture change feels dramatic and is, in practice, very difficult to reverse.</p></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Why is biltong-making a physical change even though it's practically impossible to turn biltong back into fresh meat?</summary>
+<div class="answer">Because no new substance is formed — the meat is still made of the same proteins and fats throughout, just with the water removed. "Reversible" is a helpful general clue for spotting physical changes, but the real test is always whether a new substance formed, and here it didn't.</div>
+</details>` },
+
+      { label: 'Thursday', content: `<h2>&#128300; Practical Activity: Classify the Change</h2>
+<div class="block block-dyk"><h3>&#11088; Did You Know?</h3>
+<p>Mixing vinegar and baking soda produces a fizzing chemical reaction (carbon dioxide gas is the giveaway sign), while mixing sand and water is purely physical — you can separate them again afterwards by simply letting the water evaporate or filtering.</p></div>
+<div class="block block-activity"><h3>&#128300; Practical Activity: Sort the Changes</h3>
+<div class="what-to-do"><strong>What to do:</strong> Make a table with two columns: "Physical Change" and "Chemical Change". Sort the following into the correct column, and for each one, write a one-sentence reason: melting butter, burning a candle, tearing paper, an apple going brown after being cut, boiling water, a firework exploding, freezing juice into ice lollies, bread going mouldy. For at least one item, discuss with a partner whether you agree on which column it belongs in — some, like an apple browning, are more interesting to reason through than they first appear.</div></div>
+<details class="quick-check"><summary>&#10067; Quick Check: Is an apple going brown after being cut a physical or chemical change? Why?</summary>
+<div class="answer">It's a chemical change — a compound in the apple reacts with oxygen in the air (an enzyme-driven reaction) to form new brown-coloured substances. The colour change and the fact that you can't turn it back are both signs pointing to a chemical change.</div>
+</details>` },
+
+      { label: 'Friday', content: `<h2>&#128203; Summary & Key Vocabulary</h2>
+<div class="block block-summary"><h3>&#128203; Week Summary</h3><ul>
+<li>A physical change alters form, size, or state, but no new substance forms — usually reversible.</li>
+<li>A chemical change forms a genuinely new substance with different properties — usually difficult to reverse.</li>
+<li>Signs of a chemical change: colour change, gas produced, temperature change, new smell, precipitate formed, light produced.</li>
+<li>Reversibility is a useful clue, but the real test of a chemical change is whether a new substance actually formed.</li>
+</ul></div>
+<div class="block block-mistakes"><h3>&#9888; Common Mistakes (from past exam reports)</h3>
+<div class="mistake-item"><div class="wrong">&#10060; "If a change is irreversible, it must be chemical — and if it's reversible, it must be physical."</div><div class="right">&#10004; Reversibility is a useful clue, not a strict rule. Some physical changes (like biltong-drying, or scrambling an egg's texture through cooking — actually chemical) are hard to reverse in practice. Always check for a genuinely new substance first.</div></div>
+<div class="mistake-item"><div class="wrong">&#10060; "Melting and boiling are chemical changes because they need heat."</div><div class="right">&#10004; Needing heat doesn't make something chemical. Melting and boiling only change the STATE of a substance (solid/liquid/gas) — the substance itself (e.g. H&#8322;O) stays exactly the same.</div></div>
+<div class="mistake-item"><div class="wrong">&#10060; "A colour change always means a chemical change happened."</div><div class="right">&#10004; Not always — dissolving a coloured substance (like food colouring spreading through water) is a physical change even though the colour visibly changes. Colour change is one clue among several, not proof on its own.</div></div></div>
+<div class="block block-vocab"><h3>&#128273; Key Vocabulary</h3>
+<div class="vocab-term"><b>Physical change</b> — a change in form, size, or state where no new substance is formed</div>
+<div class="vocab-term"><b>Chemical change</b> — a change where one or more new substances form, with different properties</div>
+<div class="vocab-term"><b>Reversible</b> — a change that can be undone, returning the original substance(s)</div>
+<div class="vocab-term"><b>Irreversible</b> — a change that cannot easily be undone</div>
+<div class="vocab-term"><b>Precipitate</b> — a solid that forms and separates out of a liquid during a chemical reaction</div>
+</div>
+<details class="quick-check"><summary>&#10067; Final Check: Without looking back, what is the single real test for whether a change is chemical?</summary>
+<div class="answer">Whether a genuinely new substance, with different properties from the starting materials, has been formed — not simply whether the change looks dramatic or is hard to reverse.</div>
+</details>
+<p style="margin-top:16px;color:#4caf50;font-weight:600;">&#9989; Ready? Head to the <strong>Assessment</strong> tab above to complete this week's quiz. You need 70% to pass and unlock the next topic.</p>` }
+    ],
+    resources: [
+      { icon: '&#128196;', title: 'Study Notes — Physical & Chemical Change', desc: 'Core concepts and definitions', file: 'resources/gr9-pcc-notes.pdf' },
+      { icon: '&#128203;', title: 'Past Exam Questions', desc: 'CAPS-style exam questions', file: 'resources/gr9-pcc-pastpaper.pdf' },
+      { icon: '&#128221;', title: 'Workbook', desc: 'Practice exercises and classification activities', file: 'resources/gr9-pcc-workbook.pdf' },
+      { icon: '&#127919;', title: 'Exam Preparation', desc: 'Revision summary and tips', file: 'resources/gr9-pcc-examprep.pdf' }
+    ],
+    assessment: [
+      { question: "Which of these is a physical change?", options: ["Burning paper", "Rusting iron", "Melting ice", "Cooking an egg"], correct: 2 },
+      { question: "Which of these is a chemical change?", options: ["Cutting paper", "Dissolving salt in water", "Rusting of iron", "Bending a wire"], correct: 2 },
+      { question: "What is produced during a chemical change?", options: ["Nothing new", "A new substance with different properties", "Only heat", "A change in shape only"], correct: 1 },
+      { question: "Which of these is a sign that a chemical change has occurred?", options: ["The object changes shape", "Production of a gas (bubbles)", "The object becomes smaller", "The object becomes colder in a fridge"], correct: 1 },
+      { question: "Is dissolving sugar in water a physical or chemical change?", options: ["Chemical, because the sugar disappears", "Physical, because the sugar is still sugar and can be recovered", "Chemical, because it changes colour", "Neither — nothing changes at all"], correct: 1 }
+    ],
+    shortAnswers: [
+      {
+        question: "Explain the difference between a physical change and a chemical change, giving ONE example of each.",
+        marks: 4,
+        modelAnswer: "A physical change alters the form, size, or state of a substance but does not form a new substance (1 mark), e.g. melting ice or cutting paper (1 mark). A chemical change forms one or more new substances with different properties from the starting materials (1 mark), e.g. rusting iron or burning wood (1 mark)."
+      },
+      {
+        question: "A learner argues that rusting must be a physical change because the iron doesn't melt or change state. Explain why rusting is actually a CHEMICAL change.",
+        marks: 3,
+        modelAnswer: "The learner's reasoning is incorrect (1 mark) because rusting produces a genuinely new substance — iron oxide — with different properties from the original iron and oxygen (1 mark). Changing state (melting, boiling) is not the same thing as forming a new substance, which is the real test for a chemical change (1 mark)."
+      }
+    ]
+  }
+};
+
+let currentWeek = 1;
+let currentDay = 0;
+let completedWeeks = new Set(JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'completedWeeks') || '[]'));
+
+Object.keys(weekData).forEach(function(w) {
+  localStorage.setItem(STORAGE_PREFIX + 'correct_' + w, JSON.stringify(weekData[w].assessment.map(function(q){ return q.correct; })));
+});
+
+function toggleTheme() {
+  const isLight = document.getElementById('body').classList.toggle('light-mode');
+  localStorage.setItem('cl_theme', isLight ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerHTML = isLight ? '&#9790; Dark' : '&#9728; Light';
+}
+
+function saveAnswer(week, q, val) {
+  var k = STORAGE_PREFIX + 'answers_' + week;
+  var saved = JSON.parse(localStorage.getItem(k) || '{}');
+  saved['q' + q] = val;
+  localStorage.setItem(k, JSON.stringify(saved));
+}
+
+function buildModuleSelector() {
+  var el = document.getElementById('moduleSelector');
+  el.innerHTML = '';
+  for (var w = 1; w <= TOTAL_WEEKS; w++) {
+    var btn = document.createElement('button');
+    btn.className = 'module-btn' + (completedWeeks.has(w) ? ' completed' : '');
+    btn.textContent = 'Week ' + w + (completedWeeks.has(w) ? ' \u2713' : '');
+    btn.onclick = (function(week){ return function(){ selectModule(week); }; })(w);
+    el.appendChild(btn);
+  }
+  refreshModuleButtons();
+}
+function refreshModuleButtons() {
+  document.querySelectorAll('.module-btn').forEach(function(btn, i) { btn.classList.toggle('active', i + 1 === currentWeek); });
+}
+
+function selectModule(week) { currentWeek = week; currentDay = 0; refreshModuleButtons(); updateWeekContent(); }
+
+function buildDayTabs() {
+  var week = weekData[currentWeek];
+  var el = document.getElementById('dayTabs');
+  el.innerHTML = '';
+  week.days.forEach(function(day, i) {
+    var btn = document.createElement('button');
+    btn.className = 'day-btn' + (day.label === 'Friday' ? ' friday' : '') + (i === currentDay ? ' active' : '');
+    btn.textContent = day.label;
+    btn.onclick = function(){ currentDay = i; buildDayTabs(); renderDayContent(); };
+    el.appendChild(btn);
+  });
+}
+function renderDayContent() {
+  var day = weekData[currentWeek].days[currentDay];
+  document.getElementById('lessonContent').innerHTML =
+    '<div class="day-label">&#128197; ' + day.label + ' &middot; Week ' + currentWeek + '</div>' + day.content;
+}
+
+function showTab(tabName, tabBtn) {
+  document.querySelectorAll('.content-section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById(tabName).classList.add('active');
+  if (tabBtn) tabBtn.classList.add('active');
+}
+
+function updateVideoSection() {
+  const v = weekData[currentWeek].videos;
+  const CS = '<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;"><div style="font-size:2.2rem;">&#127916;</div><p style="color:#fff;font-weight:700;margin-top:8px;font-size:0.85rem;">Video Coming Soon</p></div>';
+  const iframe = function(id) {
+    return '<iframe src="https://www.youtube.com/embed/'+id+'?rel=0&modestbranding=1&iv_load_policy=3" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;"></iframe>';
+  };
+  document.getElementById('tutorialVideo').innerHTML = (v.t && v.t !== 'PLACEHOLDER') ? iframe(v.t) : CS;
+  document.getElementById('basicVideo').innerHTML = (v.b && v.b !== 'PLACEHOLDER') ? iframe(v.b) : CS;
+  document.getElementById('tutorialTitle').textContent = v.tTitle;
+  document.getElementById('basicTitle').textContent = v.bTitle;
+  document.getElementById('weekTitle').textContent = 'Videos \u2014 Week ' + currentWeek;
+}
+
+function renderResources() {
+  var week = weekData[currentWeek];
+  document.getElementById('resourcesTitle').textContent = 'Resources \u2014 Week ' + currentWeek;
+  var html = '<div class="resources-grid">';
+  week.resources.forEach(function(r) {
+    var pdfUrl = 'https://mozilla.github.io/pdf.js/web/viewer.html?file=' + BASE_URL + r.file;
+    html += '<a href="'+pdfUrl+'" class="resource-card" target="_blank"><div class="resource-icon">'+r.icon+'</div><h4>'+r.title+'</h4><p>'+r.desc+'</p><span class="download-badge">View PDF</span></a>';
+  });
+  html += '</div>';
+  document.getElementById('resourcesBody').innerHTML = html;
+}
+
+function renderAssessment() {
+  var week = weekData[currentWeek];
+  var html = '<h2 style="font-size:1.1rem;margin-bottom:6px;">Week ' + currentWeek + ' Assessment</h2>';
+  html += '<p style="color:#888;margin-bottom:16px;font-size:0.85rem;">'+week.assessment.length+' questions. You need 70% to pass. Available from Friday.</p>';
+  week.assessment.forEach(function(q, qi) {
+    html += '<div class="quiz-question"><h4>Q'+(qi+1)+': '+q.question+'</h4><div class="quiz-options">';
+    q.options.forEach(function(opt, oi) {
+      html += '<label class="quiz-option"><input type="radio" name="w'+currentWeek+'q'+qi+'" value="'+oi+'" onchange="saveAnswer('+currentWeek+','+qi+','+oi+')"> '+opt+'</label>';
+    });
+    html += '</div></div>';
+  });
+  html += '<a href="submit_PCC_'+currentWeek+'.html" onclick="localStorage.setItem(\'cl_submit_course\',\'PCC\');localStorage.setItem(\'cl_submit_week\',\''+currentWeek+'\');" class="submit-btn">Submit Assessment</a>';
+
+  if (week.shortAnswers && week.shortAnswers.length) {
+    html += '<h3 style="margin-top:26px;margin-bottom:6px;font-size:1rem;color:#4caf50;">&#9997; Short Answer Practice</h3>';
+    html += '<p style="color:#888;margin-bottom:14px;font-size:0.8rem;">Exam-style questions, marked out of the total shown. These are for practice only and don\'t affect your pass/fail score — write your answer, then reveal the model answer to check yourself.</p>';
+    week.shortAnswers.forEach(function(sa, si) {
+      var id = 'sa_' + currentWeek + '_' + si;
+      html += '<div class="sa-practice">' +
+        '<h4>Q'+(si+1)+': '+sa.question+'</h4>' +
+        '<div class="sa-marks">['+sa.marks+' marks]</div>' +
+        '<textarea placeholder="Type your answer here..." id="'+id+'_input"></textarea>' +
+        '<div><button class="sa-reveal-btn" onclick="revealModelAnswer(\''+id+'\')">Reveal Model Answer</button></div>' +
+        '<div class="sa-model-answer" id="'+id+'_answer"><strong>Model Answer:</strong> '+sa.modelAnswer+'</div>' +
+        '</div>';
+    });
+  }
+
+  document.getElementById('assessmentContent').innerHTML = html;
+}
+
+function revealModelAnswer(id) {
+  document.getElementById(id + '_answer').classList.add('shown');
+}
+
+function updateWeekContent() {
+  updateVideoSection();
+  buildDayTabs();
+  renderDayContent();
+  renderResources();
+  renderAssessment();
+}
+
+function updateProgress() {
+  const done = completedWeeks.size;
+  const pct = Math.round(done / TOTAL_WEEKS * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '% complete';
+  document.getElementById('weeksComplete').textContent = done + '/' + TOTAL_WEEKS;
+  document.getElementById('videosWatched').textContent = (done*2) + '/' + (TOTAL_WEEKS*2);
+  document.getElementById('assessmentsPassed').textContent = done + '/' + TOTAL_WEEKS;
+}
+
+// ── Lightbox: tap any illustration to zoom, with a scale+fade animation ──
+function openLightbox(src, caption) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxCaption').textContent = caption || '';
+  var overlay = document.getElementById('lightboxOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('lightboxOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+document.getElementById('lessonContent').addEventListener('click', function(e) {
+  if (e.target.tagName === 'IMG' && e.target.closest('.illustration')) {
+    var captionEl = e.target.closest('.illustration').querySelector('.caption');
+    openLightbox(e.target.src, captionEl ? captionEl.textContent : '');
+  }
+});
+
+window.onload = function() {
+  const isLight = localStorage.getItem('cl_theme') === 'light';
+  if (isLight) { document.getElementById('body').classList.add('light-mode'); document.getElementById('themeBtn').innerHTML = '&#9790; Dark'; }
+  buildModuleSelector();
+  updateProgress();
+  selectModule(1);
+};
+</script>
+</body>
+</html>
